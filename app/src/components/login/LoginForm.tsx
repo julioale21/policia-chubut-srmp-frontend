@@ -1,10 +1,15 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Stack, TextField } from "@mui/material";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+//valid email julioromero@policia.chubut.gov.ar
+//valid password 1234
+
 const LoginForm: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -12,8 +17,8 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async () => {
     const responseNextAuth = await signIn("credentials", {
       redirect: false,
-      email: "julioromero@policia.chubut.gov.ar",
-      password: "1234",
+      email,
+      password,
     });
 
     if (responseNextAuth?.error) {
@@ -30,11 +35,21 @@ const LoginForm: React.FC = () => {
       direction="column"
       justifyContent="center"
       mt={5}
-      width={300}
+      width={400}
     >
       <Stack spacing={2} component="form" width="100%">
-        <TextField id="eamil" label="Email" type="text" />
-        <TextField id="password" label="Contraseña" type="password" />
+        <TextField
+          id="eamil"
+          label="Email"
+          type="text"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          id="password"
+          label="Contraseña"
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <Button variant="outlined" onClick={handleSubmit}>
           Ingresar
         </Button>
