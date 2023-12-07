@@ -4,9 +4,9 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-
 import "./globals.css";
-import SessionAuthProvider from "./src/context/SessionAuthProvider";
+
+import Providers from "./providers/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionAuthProvider>{children}</SessionAuthProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
