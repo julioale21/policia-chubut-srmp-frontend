@@ -6,7 +6,7 @@ const LoginPage = () => {
   return (
     <Stack
       direction="column"
-      width="100%"
+      width="100vw"
       height="100vh"
       alignItems="center"
       justifyContent="center"

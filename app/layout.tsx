@@ -7,8 +7,7 @@ import "@fontsource/roboto/700.css";
 import "./globals.css";
 
 import Providers from "./providers/providers";
-
-const inter = Inter({ subsets: ["latin"] });
+import MenuAppBar from "./components/appbar/AppBar";
 
 export const metadata: Metadata = {
   title: "Policia Chubut SRMP",
@@ -21,9 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
+    <html>
+      <body>
+        <Providers>
+          <MenuAppBar />
+          {children}
+        </Providers>
       </body>
     </html>
   );
