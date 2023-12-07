@@ -5,7 +5,7 @@ import instance from "../axios";
 
 async function getMoviles() {
   const res = await instance.get("/moviles");
-  return res;
+  return res.data;
 }
 
 const OtherComponent = () => {

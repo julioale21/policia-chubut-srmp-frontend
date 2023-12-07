@@ -1,18 +1,31 @@
 import axios from "axios";
+import { getSession } from "next-auth/react";
 
-const instance = axios.create({
+const axiosInstance = axios.create({
   baseURL: "http://localhost:3001/api",
   timeout: 10000,
   headers: { "content-type": "application/json" },
 });
 
-export const updateAxiosToken = (token: string) => {
-  instance.defaults.headers.common["Authorization"] = token
-    ? `Bearer ${token}`
-    : "";
-};
+axiosInstance.interceptors.request.use(
+  async (config)  => {
+    const session = await getSession();
 
-instance.interceptors.response.use(
+    console.log("session", session);
+
+    if (true) {
+      // @ts-ignore
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${session?.token}`,
+      };
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error?.response) {
@@ -26,4 +39,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export default axiosInstance;
