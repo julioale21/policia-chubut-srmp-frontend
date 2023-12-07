@@ -4,6 +4,7 @@ import { Button, Stack, TextField } from "@mui/material";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+
 //valid email julioromero@policia.chubut.gov.ar
 //valid password 1234
 
@@ -12,6 +13,7 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const { data: session } = useSession();
   const router = useRouter();
+
 
   console.log(session);
   const handleSubmit = async () => {

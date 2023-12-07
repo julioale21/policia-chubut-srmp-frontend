@@ -1,3 +1,4 @@
+import axiosInstance from "@/app/axios";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -6,23 +7,16 @@ const handle = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { type: "text", placeholder: "jsmith" },
-        password: { type: "password" },
+        email: { type: "text"},
+        password: { type: "password"},
       },
       async authorize(credentials, req) {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-          {
-            method: "POST",
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password,
-            }),
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        const resp = await axiosInstance.post("/auth/login", {
+          email: credentials?.email,
+          password: credentials?.password,
+        });
 
-        const data = await res.json();
+        const { data } = resp;
 
         if (data.user) {
           return {

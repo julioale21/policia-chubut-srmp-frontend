@@ -4,11 +4,10 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-
 import "./globals.css";
-import SessionAuthProvider from "./src/context/SessionAuthProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+import Providers from "./providers/providers";
+import MenuAppBar from "./components/appbar/AppBar";
 
 export const metadata: Metadata = {
   title: "Policia Chubut SRMP",
@@ -21,9 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <SessionAuthProvider>{children}</SessionAuthProvider>
+    <html>
+      <body>
+        <Providers>
+          <MenuAppBar />
+          {children}
+        </Providers>
       </body>
     </html>
   );

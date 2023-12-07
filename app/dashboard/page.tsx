@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 
 const DashboardPage: React.FC = () => {
   return (
-    <Stack>
+    <Stack alignItems="center" justifyContent="center">
       <Typography component="h1">Dashboard</Typography>
       <Button variant="outlined" onClick={() => signOut()}>
         Salir
