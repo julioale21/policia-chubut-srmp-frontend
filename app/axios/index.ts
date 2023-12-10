@@ -11,9 +11,7 @@ axiosInstance.interceptors.request.use(
   async (config)  => {
     const session = await getSession();
 
-    console.log("session", session);
-
-    if (true) {
+    if (session?.token) {
       // @ts-ignore
       config.headers = {
         ...config.headers,

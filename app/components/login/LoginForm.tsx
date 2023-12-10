@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Button, Stack, TextField } from "@mui/material";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 //valid email julioromero@policia.chubut.gov.ar
 //valid password 1234
@@ -11,11 +11,8 @@ import { useRouter } from "next/navigation";
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data: session } = useSession();
   const router = useRouter();
 
-
-  console.log(session);
   const handleSubmit = async () => {
     const responseNextAuth = await signIn("credentials", {
       redirect: false,
@@ -55,6 +52,17 @@ const LoginForm: React.FC = () => {
         <Button variant="outlined" onClick={handleSubmit}>
           Ingresar
         </Button>
+
+        <Stack mt={3}>
+          <Button
+            startIcon={<ArrowBackIcon />}
+            onClick={() => router.push("/")}
+            sx={{ fontSize: 10 }}
+            size="small"
+          >
+            Regrasar al home
+          </Button>
+        </Stack>
       </Stack>
     </Stack>
   );

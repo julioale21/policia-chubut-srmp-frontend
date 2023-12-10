@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -7,7 +6,6 @@ import "@fontsource/roboto/700.css";
 import "./globals.css";
 
 import Providers from "./providers/providers";
-import MenuAppBar from "./components/appbar/AppBar";
 
 export const metadata: Metadata = {
   title: "Policia Chubut SRMP",
@@ -23,7 +21,6 @@ export default function RootLayout({
     <html>
       <body>
         <Providers>
-          <MenuAppBar />
           {children}
         </Providers>
       </body>
