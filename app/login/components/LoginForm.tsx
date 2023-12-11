@@ -1,32 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Button, Stack, TextField } from "@mui/material";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "@/app/common/hooks/useNavigate";
+import { useLogIn } from "@/app/login/hooks/useLogIn";
 
 //valid email julioromero@policia.chubut.gov.ar
 //valid password 1234
 
 const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
-
-  const handleSubmit = async () => {
-    const responseNextAuth = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (responseNextAuth?.error) {
-      console.log(responseNextAuth.error);
-      return;
-    }
-
-    router.push("/dashboard");
-  };
+  const navigate = useNavigate();
+  const { setEmail, setPassword, handleSubmit } = useLogIn();
 
   return (
     <Stack
@@ -56,7 +40,7 @@ const LoginForm: React.FC = () => {
         <Stack mt={3}>
           <Button
             startIcon={<ArrowBackIcon />}
-            onClick={() => router.push("/")}
+            onClick={() => navigate("/")}
             sx={{ fontSize: 10 }}
             size="small"
           >

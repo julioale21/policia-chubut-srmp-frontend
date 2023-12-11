@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import instance from "../axios";
+import instance from "../../config/axios";
 
 async function getMoviles() {
   const res = await instance.get("/moviles");

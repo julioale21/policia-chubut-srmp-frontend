@@ -1,0 +1,1 @@
+export { IngresForm } from "./IngresForm";

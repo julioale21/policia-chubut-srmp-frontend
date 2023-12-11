@@ -5,7 +5,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "./globals.css";
 
-import Providers from "./providers/providers";
+import Providers from "./config/providers/providers";
 
 export const metadata: Metadata = {
   title: "Policia Chubut SRMP",
@@ -20,9 +20,7 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

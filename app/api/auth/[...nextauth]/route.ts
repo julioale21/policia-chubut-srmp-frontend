@@ -1,4 +1,4 @@
-import axiosInstance from "@/app/axios";
+import axiosInstance from "@/app/config/axios";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -7,8 +7,8 @@ const handle = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { type: "text"},
-        password: { type: "password"},
+        email: { type: "text" },
+        password: { type: "password" },
       },
       async authorize(credentials, req) {
         const resp = await axiosInstance.post("/auth/login", {

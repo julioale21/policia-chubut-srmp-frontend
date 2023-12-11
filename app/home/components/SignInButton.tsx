@@ -1,13 +1,13 @@
-'use client';
+"use client";
 import React from "react";
 import { Button } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "@/app/common/hooks/useNavigate";
 
 const SignInButton = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
   return (
     <Button
-      onClick={() => router.push("/login")}
+      onClick={() => navigate("/login")}
       sx={{ color: "black", fontWeight: 400 }}
       variant="text"
     >
@@ -16,4 +16,4 @@ const SignInButton = () => {
   );
 };
 
-export default SignInButton;
+export { SignInButton };

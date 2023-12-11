@@ -1,8 +1,9 @@
-import { Button, Stack, Typography } from "@mui/material";
+import React from "react";
+import Image from "next/image";
+import { Stack, Typography } from "@mui/material";
 
 import PoliciaLogo from "../public/assets/policia.svg";
-import Image from "next/image";
-import SignInButton from "./components/dashboard/SignInButton";
+import { SignInButton } from "./home/components";
 
 export default async function Home() {
   return (
