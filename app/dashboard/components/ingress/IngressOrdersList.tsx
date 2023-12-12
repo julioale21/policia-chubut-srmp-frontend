@@ -13,17 +13,18 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useIngressOrders } from "../../hooks/useIngressOrders";
+import { useIngressOrders } from "../../../ingress/hooks/useIngressOrders";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
+import dayjs from "dayjs";
 
 const IngressOrdersList = () => {
   const { data: orders, isLoading, isError } = useIngressOrders();
   const navigate = useNavigate();
 
-    const handleCreateIngress = () => {
-        navigate("/ingress/create-ingress");
-    };
+  const handleCreateIngress = () => {
+    navigate("/ingress/create-ingress");
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;
@@ -99,10 +100,10 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.date}
+          {dayjs(row.date).format("DD/MM/YYYY")}
         </TableCell>
-        <TableCell align="right">{row.orderNumbre}</TableCell>
-        <TableCell align="right">{row.repairDescription}</TableCell>
+        <TableCell align="center">{row.orderNumbre}</TableCell>
+        <TableCell align="center">{row.repairDescription}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -146,8 +147,8 @@ export default function CollapsibleTable({ orders }: any) {
           <TableRow>
             <TableCell />
             <TableCell>Fecha de ingreso</TableCell>
-            <TableCell align="right">Número de orden</TableCell>
-            <TableCell align="right">Descripción</TableCell>
+            <TableCell align="center">Número de orden</TableCell>
+            <TableCell align="center">Descripción</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
