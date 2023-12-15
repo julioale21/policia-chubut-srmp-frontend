@@ -40,7 +40,7 @@ export default function MenuAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/dashboard")}
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, cursor: "pointer" }}
