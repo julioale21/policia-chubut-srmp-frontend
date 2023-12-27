@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import { IngresForm } from "../components";
+import { IngresForm } from "../components/form/IngresForm";
 
 const IngressPage: React.FC = () => {
   return (

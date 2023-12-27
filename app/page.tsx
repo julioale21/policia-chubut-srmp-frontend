@@ -8,7 +8,7 @@ import { SignInButton } from "./home/components";
 export default async function Home() {
   return (
     <Stack justifyContent="center" alignItems="center" height="100vh">
-      <Typography component="h1" className="text-6xl text-red-500">
+      <Typography textAlign="center" component="h1" className="text-6xl text-red-500">
         Policia del Chubut
       </Typography>
       <Typography fontSize={20} fontWeight={500}>

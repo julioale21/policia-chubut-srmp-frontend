@@ -30,7 +30,7 @@ export default function MenuAppBar() {
     <Box sx={{ flexGrow: 1, m: 0 }}>
       <AppBar position="sticky" sx={{ color: "white", bgcolor: "black" }}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -38,7 +38,7 @@ export default function MenuAppBar() {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography
             onClick={() => navigate("/dashboard")}
             variant="h6"

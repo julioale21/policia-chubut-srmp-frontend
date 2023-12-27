@@ -1,21 +1,28 @@
 "use client";
 import React from "react";
-import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+
+import {
+  Box,
+  Button,
+  Collapse,
+  Stack,
+  Paper,
+  TableRow,
+  TableBody,
+  TableHead,
+  TableContainer,
+  TableCell,
+  Table,
+  TablePagination,
+} from "@mui/material";
+
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useIngressOrders } from "../../../ingress/hooks/useIngressOrders";
-import { Button, Stack } from "@mui/material";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 
 const IngressOrdersList = () => {
@@ -52,8 +59,24 @@ const IngressOrdersList = () => {
         Ordenes de ingreso
       </Typography>
       <CollapsibleTable orders={rows} />
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={10}
+        page={1}
+        onPageChange={() => {}}
+        onRowsPerPageChange={() => {}}
+        labelRowsPerPage="Resultados por pagina"
+      />
       <Stack mt={3} width="100%" direction="row" justifyContent="flex-end">
-        <Button onClick={handleCreateIngress}>Crear orden</Button>
+        <Button
+          variant="outlined"
+          endIcon={<AddOutlinedIcon />}
+          onClick={handleCreateIngress}
+        >
+          Crear orden
+        </Button>
       </Stack>
     </Stack>
   );
@@ -108,7 +131,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
+            <Box sx={{ margin: 1, paddingY: 3 }}>
               <Typography variant="h6" gutterBottom component="div">
                 Móvil
               </Typography>
@@ -123,11 +146,19 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                 </TableHead>
                 <TableBody>
                   <TableRow key={row.movile.id}>
-                    <TableCell>{row.movile.brand}</TableCell>
-                    <TableCell>{row.movile.model}</TableCell>
-                    <TableCell>{row.movile.domain}</TableCell>
-                    <TableCell>{row.movile.kilometers} km</TableCell>
-                    <TableCell></TableCell>
+                    <TableCell sx={{ border: "none" }}>
+                      {row.movile.brand}
+                    </TableCell>
+                    <TableCell sx={{ border: "none" }}>
+                      {row.movile.model}
+                    </TableCell>
+                    <TableCell sx={{ border: "none" }}>
+                      {row.movile.domain}
+                    </TableCell>
+                    <TableCell sx={{ border: "none" }}>
+                      {row.movile.kilometers} km
+                    </TableCell>
+                    <TableCell sx={{ border: "none" }}></TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
