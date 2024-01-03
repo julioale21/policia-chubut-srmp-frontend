@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Box,
@@ -26,18 +26,25 @@ import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 
 const IngressOrdersList = () => {
-  const { data: orders, isLoading, isError } = useIngressOrders();
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { data, isLoading, isError } = useIngressOrders(page, limit);
   const navigate = useNavigate();
 
   const handleCreateIngress = () => {
     navigate("/ingress/create-ingress");
   };
 
+  const handlePageChange = (event: any, newPage: number) => {
+    setPage(newPage);
+  }
+
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;
-  if (!orders) return <div>No orders</div>;
+  if (!data.ingresses) return <div>No orders</div>;
 
-  const rows = orders?.map((order: any) => {
+  const rows = data.ingresses?.map((order: any) => {
     return createData(
       order.id,
       order.date,
@@ -48,6 +55,7 @@ const IngressOrdersList = () => {
         brand: order.movile.brand,
         model: order.movile.model,
         domain: order.movile.domain,
+        internal_register: order.movile.internal_register,
         kilometers: order.kilometers,
       }
     );
@@ -62,14 +70,20 @@ const IngressOrdersList = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={rows.length}
-        rowsPerPage={10}
-        page={1}
-        onPageChange={() => {}}
+        count={data.total}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handlePageChange}
         onRowsPerPageChange={() => {}}
         labelRowsPerPage="Resultados por pagina"
       />
-      <Stack mt={3} width="100%" direction="row" justifyContent="flex-end">
+      <Stack
+        mt={3}
+        mb={10}
+        width="100%"
+        direction="row"
+        justifyContent="flex-end"
+      >
         <Button
           variant="outlined"
           endIcon={<AddOutlinedIcon />}
@@ -94,6 +108,7 @@ function createData(
     brand: string;
     model: string;
     domain: string;
+    internal_register: string;
     kilometers: number;
   }
 ) {
@@ -126,7 +141,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           {dayjs(row.date).format("DD/MM/YYYY")}
         </TableCell>
         <TableCell align="center">{row.orderNumbre}</TableCell>
-        <TableCell align="center">{row.repairDescription}</TableCell>
+        <TableCell align="center">{row.movile.internal_register}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -179,7 +194,7 @@ export default function CollapsibleTable({ orders }: any) {
             <TableCell />
             <TableCell>Fecha de ingreso</TableCell>
             <TableCell align="center">Número de orden</TableCell>
-            <TableCell align="center">Descripción</TableCell>
+            <TableCell align="center">Móvil R.I</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
