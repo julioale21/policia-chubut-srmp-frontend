@@ -262,12 +262,12 @@ export const CarTechnicalSheet: React.FC<CarTexhnicalSheetProps> = ({
           />
           <CardTechnicalItem
             title="Kilometros"
-            value={order.movile.kilometers}
+            value={order.movile.kilometers.toString()}
             icon={<AddRoadIcon />}
           />
           <CardTechnicalItem
             title="Nivel de combustible"
-            value={getFuelLevel(order.fuelLevel)}
+            value={getFuelLevel(parseInt(order.fuelLevel))}
             icon={<LocalGasStationIcon />}
           />
         </Stack>
