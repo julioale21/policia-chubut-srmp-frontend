@@ -4,16 +4,20 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Paper, IconButton } from "@mui/material";
 
 interface SearchBarProps {
-  width?: number;
+  width?: number | string | (number | string)[];
   placeholder?: string;
   onSearch: (value: string) => void;
+  searchTerm?: string;
 }
 const SearchBar: React.FC<SearchBarProps> = ({
   width = 400,
   placeholder = "Search ...",
   onSearch,
+  searchTerm,
 }) => {
-  const [inputValue, setInputValue] = React.useState<string>("");
+  const [inputValue, setInputValue] = React.useState<string>(searchTerm || "");
+
+
   const handleSearch = () => {
     onSearch(inputValue);
   };
@@ -31,17 +35,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <Paper
-      component="form"
       sx={{
         display: "flex",
         alignItems: "center",
         width: width,
         padding: "2px 4px",
         borderRadius: 2,
-      }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSearch();
       }}
     >
       <InputBase
@@ -52,7 +51,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
-      <IconButton onClick={handleSearch} sx={{ p: "10px" }} aria-label="search">
+      <IconButton
+        type="button"
+        onClick={handleSearch}
+        sx={{ p: "10px" }}
+        aria-label="search"
+      >
         <SearchIcon />
       </IconButton>
     </Paper>

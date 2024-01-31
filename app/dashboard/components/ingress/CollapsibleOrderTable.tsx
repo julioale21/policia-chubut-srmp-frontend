@@ -15,16 +15,22 @@ import { SearchBar } from "@/app/common/components/SearchBar";
 interface CollapsibleOrderTableProps {
   orders: Order[];
   handleSearch: (value: string) => void;
+  searchTerm?: string;
 }
 
 const CollapsibleOrderTable: React.FC<CollapsibleOrderTableProps> = ({
   orders,
   handleSearch,
+  searchTerm,
 }) => {
   return (
     <Stack direction="column">
       <Stack direction="row" justifyContent="flex-end" marginY={2}>
-        <SearchBar onSearch={(value) => handleSearch(value)} />
+        <SearchBar
+          width={["100%", "100%", 400]}
+          onSearch={(value) => handleSearch(value)}
+          searchTerm={searchTerm}
+        />
       </Stack>
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">

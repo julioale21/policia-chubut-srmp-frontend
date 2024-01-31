@@ -15,10 +15,11 @@ export const IngressOrdersList = () => {
     isError,
     page,
     rowsPerPage,
+    search,
     handlePageChange,
     handleLimitChange,
     handleCreateIngress,
-    handleSearchChange
+    handleSearchChange,
   } = useOrderTables();
 
   if (isLoading) return <div>Loading...</div>;
@@ -30,7 +31,11 @@ export const IngressOrdersList = () => {
       <Typography fontSize={26} mx="auto" mb={5} mt={5} component="h2">
         Ordenes de ingreso
       </Typography>
-      <CollapsibleOrderTable orders={orderRows} handleSearch={handleSearchChange} />
+      <CollapsibleOrderTable
+        orders={orderRows}
+        handleSearch={handleSearchChange}
+        searchTerm={search}
+      />
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
