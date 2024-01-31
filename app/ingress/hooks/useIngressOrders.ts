@@ -17,7 +17,6 @@ export const useIngressOrders = (
   limit?: number,
   searchTerm?: string
 ) => {
-  console.log({ searchTerm });
   const query = useQuery({
     queryKey: ["ingressOrders", page, limit, searchTerm],
     queryFn: () => getIngressOrders(page, limit, searchTerm),
