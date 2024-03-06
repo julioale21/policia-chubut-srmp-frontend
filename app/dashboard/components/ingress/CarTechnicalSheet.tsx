@@ -7,12 +7,19 @@ import AtmOutlinedIcon from "@mui/icons-material/AtmOutlined";
 
 import { getFuelLevel } from "@/app/utils/fuelLevel";
 import { CardTechnicalItem } from "./CardTechnicalItem";
+import { useNavigate } from "@/app/common/hooks/useNavigate";
 
 interface CarTexhnicalSheetProps {
   order: ReturnType<typeof createOrderListData>;
 }
 
 const CarTechnicalSheet: React.FC<CarTexhnicalSheetProps> = ({ order }) => {
+  const navigate = useNavigate();
+
+  const handleOrderDetails = () => {
+    navigate(`/ingress/${order.id}`);
+  };
+
   return (
     <Stack paddingX={3} paddingY={2} gap={1}>
       <Stack direction="row" justifyContent="space-between">
@@ -59,7 +66,7 @@ const CarTechnicalSheet: React.FC<CarTexhnicalSheetProps> = ({ order }) => {
       </Stack>
 
       <Stack direction="row" justifyContent="flex-end" gap={1}>
-        <Button variant="text" color="primary">
+        <Button variant="text" color="primary" onClick={handleOrderDetails}>
           Ver
         </Button>
         <Button variant="text" color="primary">
