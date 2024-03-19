@@ -7,6 +7,8 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { CollapsibleOrderTable } from "./CollapsibleOrderTable";
 import { useOrderTables } from "../../hooks/useOrdersTable";
 
+import ViewListIcon from "@mui/icons-material/ViewList";
+
 export const IngressOrdersList = () => {
   const {
     ordersData,
@@ -28,9 +30,17 @@ export const IngressOrdersList = () => {
 
   return (
     <Stack width="70%">
-      <Typography fontSize={26} mx="auto" mb={5} mt={5} component="h2">
-        Ordenes de ingreso
-      </Typography>
+      <Stack
+        direction="row"
+        gap={1}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <ViewListIcon fontSize="large" />
+        <Typography fontSize={[24, 48]} mb={5} mt={5} component="h2">
+          Ordenes de ingreso
+        </Typography>
+      </Stack>
       <CollapsibleOrderTable
         orders={orderRows}
         handleSearch={handleSearchChange}

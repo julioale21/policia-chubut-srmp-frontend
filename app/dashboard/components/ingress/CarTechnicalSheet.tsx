@@ -60,7 +60,7 @@ const CarTechnicalSheet: React.FC<CarTexhnicalSheetProps> = ({ order }) => {
         </Stack>
         <Stack flex={1} alignItems="flex-start">
           <Typography textAlign="left" fontWeight="light" fontStyle="italic">
-            {order.repairDescription}
+            {order.repair_description}
           </Typography>
         </Stack>
       </Stack>

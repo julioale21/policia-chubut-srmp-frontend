@@ -8,10 +8,15 @@ export const useLogIn = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
+    // const responseNextAuth = await signIn("credentials", {
+    //   redirect: false,
+    //   email,
+    //   password,
+    // });
     const responseNextAuth = await signIn("credentials", {
       redirect: false,
-      email,
-      password,
+      email: "julioromero@policia.chubut.gov.ar",
+      password: "1234",
     });
 
     if (responseNextAuth?.error) {

@@ -1,8 +1,8 @@
 export function createOrderListData(
   id: string,
   date: string,
-  orderNumbre: string,
-  repairDescription: string,
+  order_number: string,
+  repair_description: string,
   fuelLevel: string,
   movile: {
     id: string;
@@ -16,8 +16,8 @@ export function createOrderListData(
   return {
     id,
     date,
-    orderNumbre,
-    repairDescription,
+    order_number,
+    repair_description,
     fuelLevel,
     movile,
   };

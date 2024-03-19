@@ -28,7 +28,7 @@ const OrderListRow: React.FC<OrderListRowProps> = ({ row }) => {
         <TableCell component="th" scope="row">
           {dayjs(row.date).format("DD/MM/YYYY")}
         </TableCell>
-        <TableCell align="center">{row.orderNumbre}</TableCell>
+        <TableCell align="center">{row.order_number}</TableCell>
         <TableCell align="center">{row.movile.internal_register}</TableCell>
       </TableRow>
       <TableRow>
