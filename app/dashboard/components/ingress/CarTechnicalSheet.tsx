@@ -6,7 +6,7 @@ import AddRoadIcon from "@mui/icons-material/AddRoad";
 import AtmOutlinedIcon from "@mui/icons-material/AtmOutlined";
 
 import { getFuelLevel } from "@/app/utils/fuelLevel";
-import { CardTechnicalItem } from "./CardTechnicalItem";
+import { CardTechnicalItem } from "./";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
 
 interface CarTexhnicalSheetProps {

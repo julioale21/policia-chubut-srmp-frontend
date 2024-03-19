@@ -4,7 +4,7 @@ import React from "react";
 import { Button, Stack, TablePagination, Typography } from "@mui/material";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { CollapsibleOrderTable } from "./CollapsibleOrderTable";
+import { IngressOrderTable } from "./";
 import { useOrderTables } from "../../hooks/useOrdersTable";
 
 import ViewListIcon from "@mui/icons-material/ViewList";
@@ -41,7 +41,7 @@ export const IngressOrdersList = () => {
           Ordenes de ingreso
         </Typography>
       </Stack>
-      <CollapsibleOrderTable
+      <IngressOrderTable
         orders={orderRows}
         handleSearch={handleSearchChange}
         searchTerm={search}

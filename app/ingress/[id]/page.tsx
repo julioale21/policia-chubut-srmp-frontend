@@ -6,6 +6,15 @@ import { useIngressById } from "../hooks/useIngressById";
 import { getFuelLevel } from "@/app/utils/fuelLevel";
 
 import CheckIcon from "@mui/icons-material/Check";
+import { CardTechnicalItem } from "@/app/dashboard/components/ingress";
+
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
+import TimeToLeaveIcon from "@mui/icons-material/TimeToLeave";
+import AddRoadIcon from "@mui/icons-material/AddRoad";
+import AtmOutlinedIcon from "@mui/icons-material/AtmOutlined";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import PinIcon from "@mui/icons-material/Pin";
 
 interface EquipementIngress {
   equipement: {
@@ -47,7 +56,7 @@ const IngressOrderDetails = ({ params }: { params: { id: string } }) => {
     <Stack width="100%" alignItems="center" justifyContent="center">
       <Stack mb={6}>
         <Stack width="100%" justifyContent="center" alignItems="center">
-          <Typography variant="h2" color="blue">
+          <Typography variant="h2" color="primary">
             Detalle de Ingreso
           </Typography>
         </Stack>
@@ -59,61 +68,64 @@ const IngressOrderDetails = ({ params }: { params: { id: string } }) => {
         >
           <Box width={400} component="img" src="/assets/police_car.png" />
         </Stack>
-        <Stack direction="row" gap={1}>
-          <Typography fontWeight="bold" color="blue">
-            Fecha Ingreso:
-          </Typography>
-          <Typography>{formattedDate}</Typography>
-        </Stack>
-        <Stack direction="row" gap={1}>
-          <Typography fontWeight="bold" color="blue">
-            Número de orden:
-          </Typography>
-          <Typography>{ingress?.order_number}</Typography>
-        </Stack>
-        <Stack direction="row" gap={1}>
-          <Typography fontWeight="bold" color="blue">
-            Móvil RI:
-          </Typography>
-          <Typography>{ingress?.movile.internal_register}</Typography>
-        </Stack>
-        <Stack direction="row" gap={1}>
-          <Typography fontWeight="bold" color="blue">
-            Dominio:
-          </Typography>
-          <Typography>{ingress?.movile.domain}</Typography>
-        </Stack>
-        <Stack direction="row" gap={1}>
-          <Typography fontWeight="bold" color="blue">
-            Marca y modelo:
-          </Typography>
-          <Typography>
-            {ingress?.movile.brand} {ingress?.movile.model}
-          </Typography>
-        </Stack>
-        <Stack direction="row" gap={1}>
-          <Typography fontWeight="bold" color="blue">
-            Kilometraje:
-          </Typography>
-          <Typography>{ingress?.kilometers} Km</Typography>
-        </Stack>
-        <Stack direction="row" gap={1}>
-          <Typography fontWeight="bold" color="blue">
-            Nivel de combustible:
-          </Typography>
-          <Typography>{getFuelLevel(ingress?.fuel_level)}</Typography>
-        </Stack>
-        <Divider sx={{ marginY: 3 }} />
-        <Stack direction="row" gap={1}>
-          <Typography fontWeight="bold" color="blue">
-            Descripción:
-          </Typography>
-          <Typography>{ingress?.repair_description}</Typography>
-        </Stack>
+
+        <CardTechnicalItem
+          title="Fecha de ingreso"
+          textColor="primary"
+          value={formattedDate}
+          icon={<DateRangeIcon color="primary" />}
+        />
+
+        <CardTechnicalItem
+          title="Número de orden"
+          textColor="primary"
+          value={ingress?.order_number}
+          icon={<ConfirmationNumberIcon color="primary" />}
+        />
+
+        <CardTechnicalItem
+          title="Movil R.I"
+          textColor="primary"
+          value={ingress?.movile.internal_register}
+          icon={<PinIcon color="primary" />}
+        />
+
+        <CardTechnicalItem
+          title="Marca"
+          textColor="primary"
+          value={`${ingress.movile.brand} ${ingress.movile.model}`}
+          icon={<TimeToLeaveIcon color="primary" />}
+        />
+
+        <CardTechnicalItem
+          title="Dominio"
+          textColor="primary"
+          value={ingress.movile.domain}
+          icon={<AtmOutlinedIcon color="primary" />}
+        />
+
+        <CardTechnicalItem
+          title="Kilometros"
+          textColor="primary"
+          value={`${ingress?.kilometers.toString()} Km`}
+          icon={<AddRoadIcon color="primary" />}
+        />
+
+        <CardTechnicalItem
+          title="Nivel de combustible"
+          textColor="primary"
+          value={getFuelLevel(ingress.fuel_level)}
+          icon={<LocalGasStationIcon color="primary" />}
+        />
 
         <Divider sx={{ marginY: 3 }} />
 
-        <Typography fontWeight="bold" marginBottom={2} color="blue">
+        <Typography
+          fontSize={24}
+          fontWeight="bold"
+          marginBottom={2}
+          color="primary"
+        >
           Equipamiento al momento del ingreso
         </Typography>
 
