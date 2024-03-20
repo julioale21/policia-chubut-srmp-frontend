@@ -8,8 +8,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useMutateDeleteIngress } from "@/app/ingress/hooks/useMutateDeleteIngress";
+import { useCustomSnackbar } from "@/app/common/hooks/useCustomSnackbar";
 
 const OrderRow = ({ row }: { row: Order }) => {
+  const { showSuccess, showError } = useCustomSnackbar();
   const navigate = useNavigate();
   const { mutate: deleteIngress } = useMutateDeleteIngress();
 
@@ -18,7 +20,14 @@ const OrderRow = ({ row }: { row: Order }) => {
   };
 
   const handleDeleteOrder = () => {
-    deleteIngress(row.id);
+    deleteIngress(row.id, {
+      onSuccess: () => {
+        showSuccess("Order eliminada correctamente");
+      },
+      onError: () => {
+        showError("Error al eliminar la order");
+      },
+    });
   };
 
   return (
