@@ -7,12 +7,18 @@ import dayjs from "dayjs";
 import EditIcon from "@mui/icons-material/Edit";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useMutateDeleteIngress } from "@/app/ingress/hooks/useMutateDeleteIngress";
 
 const OrderRow = ({ row }: { row: Order }) => {
   const navigate = useNavigate();
+  const { mutate: deleteIngress } = useMutateDeleteIngress();
 
   const handleOrderDetails = () => {
     navigate(`/ingress/${row.id}`);
+  };
+
+  const handleDeleteOrder = () => {
+    deleteIngress(row.id);
   };
 
   return (
@@ -38,7 +44,7 @@ const OrderRow = ({ row }: { row: Order }) => {
             </Tooltip>
 
             <Tooltip title="Eliminar">
-              <IconButton>
+              <IconButton onClick={handleDeleteOrder}>
                 <DeleteForeverIcon color="error" />
               </IconButton>
             </Tooltip>

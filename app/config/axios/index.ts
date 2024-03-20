@@ -27,12 +27,13 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error?.response) {
-      if (error.response.status === 403 || error.response.status === 401) {
-        await signOut({ redirect: false }); //
-        if (!error.config.skipAuthRedirect) {
-          window.location.href = "/login";
-        }
-      }
+      console.log("error", error.response);
+      // if (error.response.status === 403 || error.response.status === 401) {
+      //   await signOut({ redirect: false });
+      //   if (!error.config.skipAuthRedirect) {
+      //     window.location.href = "/login";
+      //   }
+      // }
     }
     return Promise.reject(error);
   }
