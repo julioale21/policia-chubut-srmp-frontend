@@ -6,6 +6,7 @@ import "@fontsource/roboto/700.css";
 import "./globals.css";
 
 import Providers from "./config/providers/providers";
+import SnackbarProviderClient from "./config/providers/SnackbarProvider";
 
 export const metadata: Metadata = {
   title: "Policia Chubut SRMP",
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <Providers>{children}</Providers>
+        <SnackbarProviderClient>
+          <Providers>{children}</Providers>
+        </SnackbarProviderClient>
       </body>
     </html>
   );
