@@ -10,6 +10,7 @@ export const useIngressById = (id: string) => {
   const query = useQuery({
     queryKey: ["ingressById", id],
     queryFn: () => getIngressById(id),
+    enabled: !!id,
   });
 
   return query;

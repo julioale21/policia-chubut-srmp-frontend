@@ -14,9 +14,11 @@ export interface Ingress {
   order_number: string;
   order_status?: string;
   movile_id: string | undefined | null;
+  movile?: Movile;
   kilometers: number;
   fuel_level: number;
   equipements: string[];
+  equipementIngress?: string[];
   repair_description: string;
 }
 

@@ -19,10 +19,14 @@ const OrderRow = ({ row }: { row: Order }) => {
     navigate(`/ingress/${row.id}`);
   };
 
+  const handleEditOrder = () => {
+    navigate(`/ingress/update-ingress/${row.id}`);
+  };
+
   const handleDeleteOrder = () => {
     deleteIngress(row.id, {
       onSuccess: () => {
-        showSuccess("Order eliminada correctamente");
+        showSuccess(`Orden ${row.order_number} eliminada correctamente`);
       },
       onError: () => {
         showError("Error al eliminar la order");
@@ -47,7 +51,7 @@ const OrderRow = ({ row }: { row: Order }) => {
             </Tooltip>
 
             <Tooltip title="Editar">
-              <IconButton>
+              <IconButton onClick={handleEditOrder}>
                 <EditIcon />
               </IconButton>
             </Tooltip>

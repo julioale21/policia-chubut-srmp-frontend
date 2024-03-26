@@ -1,23 +1,34 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Autocomplete, Button, Paper, Stack, TextField } from "@mui/material";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useIngressForm } from "../../hooks/useIngressForm";
 import { EquipementList } from "./EquipementList";
 import { IngressFormTitle } from "./IngressFormTitle";
+import { Ingress } from "../../types";
 
-export const IngresForm: React.FC = () => {
+interface IngressFormProps {
+  ingress?: Ingress;
+}
+
+export const IngressForm: React.FC<IngressFormProps> = ({ ingress }) => {
+  const formTitle = ingress
+    ? "Editar orden de ingreso"
+    : "Crear orden de ingreso";
+
   const {
     register,
     handleSubmit,
     onFormSubmit,
     setValue,
+    setSelectedMovil,
     selectedEquipements,
+    selectedMovil,
     errors,
     moviles,
     equipements,
-  } = useIngressForm();
+  } = useIngressForm(ingress);
 
   return (
     <Paper sx={{ width: ["80%", "100%"], maxWidth: 700, padding: [2, 5] }}>
@@ -27,7 +38,7 @@ export const IngresForm: React.FC = () => {
         direction="column"
         width="100%"
       >
-        <IngressFormTitle text="Formulario creación ordenes de ingreso" />
+        <IngressFormTitle text={formTitle} />
 
         <Stack direction={["column", "row"]} gap={2} mt={4} width="100%">
           <TextField
@@ -59,14 +70,21 @@ export const IngresForm: React.FC = () => {
             getOptionLabel={(option) =>
               `${option.internal_register} - ${option.model} ${option.domain}`
             }
+            value={selectedMovil}
+            onChange={(event, newValue) => {
+              setSelectedMovil(newValue);
+              setValue(
+                "movil_ri",
+                newValue
+                  ? `${newValue.internal_register} - ${newValue.model} ${newValue.domain}`
+                  : ""
+              );
+            }}
             fullWidth
             renderInput={(params) => (
               <TextField
                 {...params}
                 label="Seleccione el Móvil"
-                {...register("movil_ri", {
-                  required: "Debe ingresar el registro interno del movil",
-                })}
                 error={!!errors.movil_ri}
                 helperText={errors.movil_ri?.message}
               />
