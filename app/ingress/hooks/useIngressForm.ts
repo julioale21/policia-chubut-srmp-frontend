@@ -7,6 +7,7 @@ import { IFormInput, Ingress, Movile } from "../types";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { useMutateUpdateIngress } from "./useMutateUpdateIngress";
 
 export const useIngressForm = (ingress?: Ingress) => {
   const { data: moviles } = useMoviles();
@@ -15,6 +16,7 @@ export const useIngressForm = (ingress?: Ingress) => {
   );
   const { data: equipements } = useEquipements();
   const { mutate: createIngress } = useMutateCreateIngress();
+  const { mutate: updateIngress } = useMutateUpdateIngress();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -40,7 +42,9 @@ export const useIngressForm = (ingress?: Ingress) => {
         dayjs(ingress?.date).format("YYYY-MM-DD") ||
         dayjs().format("YYYY-MM-DD"),
       description: ingress?.repair_description || "",
-      equipements: ingress?.equipementIngress || [],
+      equipements: ingress?.equipementIngress
+        ? ingress.equipementIngress.map((equip) => equip.equipement.id)
+        : [],
       movil_fuel_level: ingress?.fuel_level || 0,
       movil_kilometers: ingress?.kilometers || 0,
       movil_ri: ingress?.movile
@@ -49,6 +53,21 @@ export const useIngressForm = (ingress?: Ingress) => {
     },
   });
 
+  useEffect(() => {
+    if (equipements && ingress?.equipementIngress) {
+      const selectedEquipementIds = ingress.equipementIngress
+        .map((ingressEquip) => {
+          const equip = equipements.find(
+            (e) => e.id === ingressEquip.equipement.id
+          );
+          return equip ? equip.id : null;
+        })
+        .filter((id) => id !== null);
+
+      setValue("equipements", selectedEquipementIds);
+    }
+  }, [equipements, ingress, setValue]);
+
   const onFormSubmit = (data: IFormInput) => {
     const internal_register = data.movil_ri.split(" - ")[0].trim();
     const movile = moviles?.find(
@@ -56,7 +75,7 @@ export const useIngressForm = (ingress?: Ingress) => {
     );
 
     const payload: Ingress = {
-      date: data.date == "" ? null : data.date,
+      date: data.date == "" ? null : dayjs(data.date).toDate(),
       order_number: data.order_number,
       movile_id: movile?.id,
       kilometers: parseInt(data.movil_kilometers.toString()),
@@ -65,15 +84,30 @@ export const useIngressForm = (ingress?: Ingress) => {
       equipements: data.equipements,
     };
 
-    createIngress(payload, {
-      onError: (error) => {
-        console.error(error);
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["ingressOrders"] });
-        navigate("/dashboard");
-      },
-    });
+    if (!ingress) {
+      createIngress(payload, {
+        onError: (error) => {
+          console.error(error);
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["ingressOrders"] });
+          navigate("/dashboard");
+        },
+      });
+    } else {
+      payload.id = ingress.id;
+      updateIngress(payload, {
+        onError: (error) => {
+          console.error(error);
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["ingressOrders"],
+          });
+          navigate("/dashboard");
+        },
+      });
+    }
   };
 
   const selectedEquipements = watch("equipements", []);

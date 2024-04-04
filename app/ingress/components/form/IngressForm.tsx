@@ -139,10 +139,10 @@ export const IngressForm: React.FC<IngressFormProps> = ({ ingress }) => {
         <Stack mt={4} direction="row" width="100%" justifyContent="flex-end">
           <Button
             variant="outlined"
-            endIcon={<AddOutlinedIcon />}
+            endIcon={ingress ? null : <AddOutlinedIcon />}
             type="submit"
           >
-            Crear orden
+            {ingress ? "Editar orden" : "Crear orden"}
           </Button>
         </Stack>
       </Stack>

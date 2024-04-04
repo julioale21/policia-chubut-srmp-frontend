@@ -8,9 +8,16 @@ export interface Equipement {
   type: string;
 }
 
+export interface EquipementIngress {
+  equipement: {
+    id: string;
+    type: string;
+  };
+}
+
 export interface Ingress {
   id?: string;
-  date: string | null | undefined;
+  date: Date | null | undefined;
   order_number: string;
   order_status?: string;
   movile_id: string | undefined | null;
@@ -18,7 +25,7 @@ export interface Ingress {
   kilometers: number;
   fuel_level: number;
   equipements: string[];
-  equipementIngress?: string[];
+  equipementIngress?: EquipementIngress[];
   repair_description: string;
 }
 
