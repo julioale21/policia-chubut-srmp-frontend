@@ -27,7 +27,6 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error?.response) {
-      console.log("error", error.response);
       if (error.response.status === 401) {
         await signOut({ redirect: false });
         if (!error.config.skipAuthRedirect) {

@@ -14,8 +14,6 @@ const OtherComponent = () => {
     queryFn: getMoviles,
   });
 
-  console.log(data);
-
   return <div>OtherComponent</div>;
 };
 

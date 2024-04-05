@@ -9,7 +9,7 @@ const getIngressOrders = async (
   const response = await axiosInstance.get(
     `/ingress?page=${page}&limit=${limit}&searchTerm=${searchTerm}`
   );
-  console.log(response.data);
+  
   return response.data;
 };
 
