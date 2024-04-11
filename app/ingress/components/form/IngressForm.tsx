@@ -101,7 +101,11 @@ export const IngressForm: React.FC<IngressFormProps> = ({ ingress }) => {
             })}
             error={!!errors.movil_kilometers}
             helperText={errors.movil_kilometers?.message}
+            inputProps={{
+              min: 0,
+            }}
           />
+
           <TextField
             id="fuel_level"
             label="Nivel de combustible"
@@ -109,9 +113,21 @@ export const IngressForm: React.FC<IngressFormProps> = ({ ingress }) => {
             sx={{ width: ["100%", "40%"] }}
             {...register("movil_fuel_level", {
               required: "Debe ingresar el nivel de combustible del movil",
+              min: {
+                value: 0,
+                message: "El valor mínimo es 0", // Custom message for the min value
+              },
+              max: {
+                value: 100, // Assuming 10000 is the maximum value
+                message: "El valor máximo es 100", // Custom message for the max value
+              },
             })}
             error={!!errors.movil_fuel_level}
             helperText={errors.movil_fuel_level?.message}
+            inputProps={{
+              min: 0,
+              max: 100,
+            }}
           />
         </Stack>
         <Stack direction="row" gap={2} mt={2} width="100%">
