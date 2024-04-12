@@ -6,7 +6,6 @@ import { useIngressById } from "../hooks/useIngressById";
 import { getFuelLevel } from "@/app/utils/fuelLevel";
 
 import CheckIcon from "@mui/icons-material/Check";
-import { CardTechnicalItem } from "@/app/dashboard/components/ingress";
 
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import TimeToLeaveIcon from "@mui/icons-material/TimeToLeave";
@@ -15,6 +14,7 @@ import AtmOutlinedIcon from "@mui/icons-material/AtmOutlined";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import PinIcon from "@mui/icons-material/Pin";
+import { CardTechnicalItem } from "../components/CardTechnicalItem";
 
 interface EquipementIngress {
   equipement: {

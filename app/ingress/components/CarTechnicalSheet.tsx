@@ -1,13 +1,14 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { createOrderListData } from "../../utils/createOrderListData";
+import { createOrderListData } from "../utils/createOrderListData";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import TimeToLeaveIcon from "@mui/icons-material/TimeToLeave";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
 import AtmOutlinedIcon from "@mui/icons-material/AtmOutlined";
 
 import { getFuelLevel } from "@/app/utils/fuelLevel";
-import { CardTechnicalItem } from "./";
+
 import { useNavigate } from "@/app/common/hooks/useNavigate";
+import { CardTechnicalItem } from "./CardTechnicalItem";
 
 interface CarTexhnicalSheetProps {
   order: ReturnType<typeof createOrderListData>;

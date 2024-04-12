@@ -1,6 +1,6 @@
 import React from "react";
 import dayjs from "dayjs";
-import { createOrderListData } from "../../utils/createOrderListData";
+import { createOrderListData } from "../utils/createOrderListData";
 import { Collapse, IconButton, TableCell, TableRow } from "@mui/material";
 import { CarTechnicalSheet } from "./CarTechnicalSheet";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";

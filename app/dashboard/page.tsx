@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
-import { Stack } from "@mui/material";
-import { IngressOrdersList } from "./components/ingress";
+import { Stack, Typography } from "@mui/material";
 
 const DashboardPage: React.FC = () => {
   return (
     <Stack alignItems="center" justifyContent="center">
-      <IngressOrdersList />
+      <Typography>Dashboard</Typography>
     </Stack>
   );
 };

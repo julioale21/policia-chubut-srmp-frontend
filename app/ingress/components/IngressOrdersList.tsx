@@ -4,10 +4,10 @@ import React from "react";
 import { Button, Stack, TablePagination, Typography } from "@mui/material";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { IngressOrderTable } from "./";
-import { useOrderTables } from "../../hooks/useOrdersTable";
+import { useOrderTables } from "../hooks/useOrdersTable";
 
 import ViewListIcon from "@mui/icons-material/ViewList";
+import { IngressOrderTable } from "./IngressOrderTable";
 
 export const IngressOrdersList = () => {
   const {

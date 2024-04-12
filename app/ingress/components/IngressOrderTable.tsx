@@ -16,7 +16,8 @@ import React from "react";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import DriveEtaIcon from "@mui/icons-material/DriveEta";
-import { OrderRow } from "./";
+import { OrderRow } from "./OrderRow";
+
 
 interface IngressOrderTableProps {
   orders: Order[];
