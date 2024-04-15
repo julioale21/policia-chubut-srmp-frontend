@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
 import { Order } from "@/app/common/interfaces";
@@ -10,7 +11,12 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useMutateDeleteIngress } from "@/app/ingress/hooks/useMutateDeleteIngress";
 import { useCustomSnackbar } from "@/app/common/hooks/useCustomSnackbar";
 
-const OrderRow = ({ row }: { row: Order }) => {
+interface OrderRowProps {
+  row: Order;
+  prefetchIngress?: (id: string) => Promise<void>;
+}
+
+const OrderRow: React.FC<OrderRowProps> = ({ row, prefetchIngress }) => {
   const { showSuccess, showError } = useCustomSnackbar();
   const navigate = useNavigate();
   const { mutate: deleteIngress } = useMutateDeleteIngress();
@@ -34,9 +40,18 @@ const OrderRow = ({ row }: { row: Order }) => {
     });
   };
 
+  const onMouseEnterRow = () => {
+    if (prefetchIngress) {
+      prefetchIngress(row.id);
+    }
+  };
+
   return (
     <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow
+        onMouseEnter={onMouseEnterRow}
+        sx={{ "& > *": { borderBottom: "unset" } }}
+      >
         <TableCell align="center" component="th" scope="row">
           {dayjs(row.date).format("DD/MM/YYYY")}
         </TableCell>

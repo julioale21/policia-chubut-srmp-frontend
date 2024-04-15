@@ -1,3 +1,4 @@
+
 import { Order } from "@/app/common/interfaces";
 import {
   Paper,
@@ -17,7 +18,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import DriveEtaIcon from "@mui/icons-material/DriveEta";
 import { OrderRow } from "./OrderRow";
-
+import { usePrefetchIngress } from "../hooks/usePrefetchIngress";
 
 interface IngressOrderTableProps {
   orders: Order[];
@@ -30,6 +31,7 @@ const IngressOrderTable: React.FC<IngressOrderTableProps> = ({
   handleSearch,
   searchTerm,
 }) => {
+  const prefetchIngress = usePrefetchIngress();
   return (
     <Stack direction="column">
       <Stack direction="row" justifyContent="flex-end" marginY={2}>
@@ -83,11 +85,12 @@ const IngressOrderTable: React.FC<IngressOrderTableProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {orders.map((row: any) => (
-              <OrderListRow key={row.id} row={row} />
-            ))} */}
             {orders.map((row: any) => (
-              <OrderRow key={row.id} row={row} />
+              <OrderRow
+                prefetchIngress={prefetchIngress}
+                key={row.id}
+                row={row}
+              />
             ))}
           </TableBody>
         </Table>

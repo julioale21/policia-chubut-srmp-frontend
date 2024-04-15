@@ -1,16 +1,12 @@
-import axiosInstance from "@/app/config/axios";
 import { useQuery } from "@tanstack/react-query";
-
-const getIngressById = async (id: string) => {
-  const response = await axiosInstance.get(`/ingress/${id}`);
-  return response.data;
-};
+import { ingressActions } from "..";
 
 export const useIngressById = (id: string) => {
   const query = useQuery({
     queryKey: ["ingressById", id],
-    queryFn: () => getIngressById(id),
+    queryFn: () => ingressActions.getIngressById(id),
     enabled: !!id,
+    // staleTime: 60 * 60 * 1000,
   });
 
   return query;
