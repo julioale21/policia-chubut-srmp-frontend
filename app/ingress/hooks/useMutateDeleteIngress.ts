@@ -1,24 +1,15 @@
-import axiosInstance from "@/app/config/axios";
 import {
   useMutation,
   UseMutationOptions,
   useQueryClient,
 } from "@tanstack/react-query";
-
-const deletengress = async (id: String): Promise<String> => {
-  try {
-    await axiosInstance.delete(`/ingress/${id}`);
-    return "Ingress deleted successfully";
-  } catch (error) {
-    return "Error deleting ingress";
-  }
-};
+import { ingressActions } from "..";
 
 export const useMutateDeleteIngress = () => {
   const queryClient = useQueryClient();
 
   const mutationOptions: UseMutationOptions<String, Error, String> = {
-    mutationFn: deletengress,
+    mutationFn: ingressActions.deletengress,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["ingressOrders"],
