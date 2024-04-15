@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useEquipements } from "./useEquipements";
-import { useMoviles } from "./useMoviles";
+import { useEquipements } from "../../equipement/hooks/useEquipements";
+import { useMoviles } from "../../movil/hooks/useMoviles";
 import { useMutateCreateIngress } from "./useMutateCreateIngress";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
 import { IFormInput, Ingress, Movile } from "../types";
