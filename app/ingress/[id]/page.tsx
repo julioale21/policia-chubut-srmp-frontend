@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
 import { useIngressById } from "../hooks/useIngressById";
 import { getFuelLevel } from "@/app/utils/fuelLevel";
 
@@ -15,6 +15,7 @@ import DateRangeIcon from "@mui/icons-material/DateRange";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import PinIcon from "@mui/icons-material/Pin";
 import { CardTechnicalItem } from "../components/CardTechnicalItem";
+import { useNavigate } from "@/app/common/hooks/useNavigate";
 
 interface EquipementIngress {
   equipement: {
@@ -40,6 +41,7 @@ interface Ingress {
 
 const IngressOrderDetails = ({ params }: { params: { id: string } }) => {
   const { data } = useIngressById(params.id);
+  const navigate = useNavigate();
   if (!data) return null;
 
   const ingress: Ingress = data;
@@ -51,6 +53,10 @@ const IngressOrderDetails = ({ params }: { params: { id: string } }) => {
     month: "long",
     year: "numeric",
   });
+
+  const handleCloseOrder = () => {
+    navigate(`/egress/create-egress?ingressId=${ingress.id}`);
+  };
 
   return (
     <Stack width="100vw" alignItems="center" justifyContent="center">
@@ -172,6 +178,10 @@ const IngressOrderDetails = ({ params }: { params: { id: string } }) => {
             </Grid>
           ))}
         </Grid>
+      </Stack>
+
+      <Stack my={4}>
+        <Button onClick={handleCloseOrder}>Cerrar orden egreso</Button>
       </Stack>
     </Stack>
   );
