@@ -29,7 +29,7 @@ const OrderListRow: React.FC<OrderListRowProps> = ({ row }) => {
           {dayjs(row.date).format("DD/MM/YYYY")}
         </TableCell>
         <TableCell align="center">{row.order_number}</TableCell>
-        <TableCell align="center">{row.movile.internal_register}</TableCell>
+        <TableCell align="center">{row.movil.internal_register}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

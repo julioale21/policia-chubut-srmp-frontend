@@ -56,7 +56,7 @@ const OrderRow: React.FC<OrderRowProps> = ({ row, prefetchIngress }) => {
           {dayjs(row.date).format("DD/MM/YYYY")}
         </TableCell>
         <TableCell align="center">{row.order_number}</TableCell>
-        <TableCell align="center">{row.movile.internal_register}</TableCell>
+        <TableCell align="center">{row.movil.internal_register}</TableCell>
         <TableCell align="center">
           <Stack direction={["column", "column", "row"]}>
             <Tooltip title="Ver detalle">

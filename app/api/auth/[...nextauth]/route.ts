@@ -11,6 +11,7 @@ const handle = NextAuth({
         password: { type: "password" },
       },
       async authorize(credentials, req) {
+        console.log({ credentials });
         const resp = await axiosInstance.post("/auth/login", {
           email: credentials?.email,
           password: credentials?.password,

@@ -35,22 +35,22 @@ const CarTechnicalSheet: React.FC<CarTexhnicalSheetProps> = ({ order }) => {
         <Stack gap={2} flex={1}>
           <CardTechnicalItem
             title="Marca"
-            value={order.movile.brand}
+            value={order.movil.brand}
             icon={<TimeToLeaveIcon />}
           />
           <CardTechnicalItem
             title="Modelo"
-            value={order.movile.model}
+            value={order.movil.model}
             icon={<TimeToLeaveIcon />}
           />
           <CardTechnicalItem
             title="Dominio"
-            value={order.movile.domain}
+            value={order.movil.domain}
             icon={<AtmOutlinedIcon />}
           />
           <CardTechnicalItem
             title="Kilometros"
-            value={order.movile.kilometers.toString()}
+            value={order.movil.kilometers.toString()}
             icon={<AddRoadIcon />}
           />
           <CardTechnicalItem

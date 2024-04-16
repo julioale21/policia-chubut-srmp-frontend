@@ -20,8 +20,8 @@ export interface Ingress {
   date: Date | null | undefined;
   order_number: string;
   order_status?: string;
-  movile_id: string | undefined | null;
-  movile?: Movile;
+  movil_id: string | undefined | null;
+  movil?: Movil;
   kilometers: number;
   fuel_level: number;
   equipements: string[];
@@ -29,7 +29,7 @@ export interface Ingress {
   repair_description: string;
 }
 
-export interface Movile {
+export interface Movil {
   id: string;
   internal_register: string;
   domain: string;

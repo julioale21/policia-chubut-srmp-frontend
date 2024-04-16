@@ -1,7 +1,7 @@
 import axiosInstance from "@/app/config/axios";
-import { Movile } from "@/app/ingress/types";
+import { Movil } from "@/app/ingress/types";
 
-export const getMoviles = async (): Promise<Movile[]> => {
-  const response = await axiosInstance.get<Movile[]>("/moviles");
+export const getMoviles = async (): Promise<Movil[]> => {
+  const response = await axiosInstance.get<Movil[]>("/moviles");
   return response.data;
 };
