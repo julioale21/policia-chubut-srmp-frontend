@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3001/api",
@@ -8,12 +8,10 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  async (config)  => {
+  async (config) => {
     const session = await getSession();
 
-    console.log("session", session);
-
-    if (true) {
+    if (session?.token) {
       // @ts-ignore
       config.headers = {
         ...config.headers,
@@ -27,9 +25,10 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     if (error?.response) {
-      if (error.response.status === 403 || error.response.status === 401) {
+      if (error.response.status === 401) {
+        await signOut({ redirect: false });
         if (!error.config.skipAuthRedirect) {
           window.location.href = "/login";
         }

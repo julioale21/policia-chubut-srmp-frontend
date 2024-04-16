@@ -1,15 +1,16 @@
 "use client";
 import React from "react";
-import { Button, Stack, Typography } from "@mui/material";
-import { signOut } from "next-auth/react";
+import { Stack, Typography } from "@mui/material";
+import Link from "next/link";
 
 const DashboardPage: React.FC = () => {
   return (
     <Stack alignItems="center" justifyContent="center">
-      <Typography component="h1">Dashboard</Typography>
-      <Button variant="outlined" onClick={() => signOut()}>
-        Salir
-      </Button>
+      <Typography mt={5} fontSize={32}>
+        Dashboard
+      </Typography>
+
+      <Link href="/ingress">Ingress List</Link>
     </Stack>
   );
 };
