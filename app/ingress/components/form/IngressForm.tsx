@@ -65,7 +65,7 @@ export const IngressForm: React.FC<IngressFormProps> = ({ ingress }) => {
         <Stack direction={["column", "row"]} gap={2} mt={2} width="100%">
           <Autocomplete
             disablePortal
-            id="movile"
+            id="movil"
             options={moviles || []}
             getOptionLabel={(option) =>
               `${option.internal_register} - ${option.model} ${option.domain}`

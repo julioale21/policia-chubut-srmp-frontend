@@ -27,7 +27,7 @@ interface Ingress {
   id: string;
   date: string;
   order_number: string;
-  movile: {
+  movil: {
     internal_register: string;
     domain: string;
     brand: string;
@@ -108,7 +108,7 @@ const IngressOrderDetails = ({ params }: { params: { id: string } }) => {
                 textColor="primary"
                 titleSize={22}
                 fontSize={20}
-                value={ingress?.movile.internal_register}
+                value={ingress?.movil.internal_register}
                 icon={<PinIcon color="primary" sx={{ fontSize: 50 }} />}
               />
             </Grid>
@@ -118,7 +118,7 @@ const IngressOrderDetails = ({ params }: { params: { id: string } }) => {
                 textColor="primary"
                 titleSize={22}
                 fontSize={20}
-                value={`${ingress.movile.brand} ${ingress.movile.model}`}
+                value={`${ingress.movil.brand} ${ingress.movil.model}`}
                 icon={<TimeToLeaveIcon color="primary" sx={{ fontSize: 50 }} />}
               />
             </Grid>
@@ -128,7 +128,7 @@ const IngressOrderDetails = ({ params }: { params: { id: string } }) => {
                 textColor="primary"
                 titleSize={22}
                 fontSize={20}
-                value={ingress.movile.domain}
+                value={ingress.movil.domain}
                 icon={<AtmOutlinedIcon color="primary" sx={{ fontSize: 50 }} />}
               />
             </Grid>

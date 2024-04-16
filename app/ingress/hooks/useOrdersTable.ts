@@ -49,11 +49,11 @@ export const useOrderTables = () => {
       order.repair_description,
       order.fuel_level.toString(),
       {
-        id: order.movile.id,
-        brand: order.movile.brand,
-        model: order.movile.model,
-        domain: order.movile.domain,
-        internal_register: order.movile.internal_register,
+        id: order.movil.id,
+        brand: order.movil.brand,
+        model: order.movil.model,
+        domain: order.movil.domain,
+        internal_register: order.movil.internal_register,
         kilometers: order.kilometers,
       }
     );

@@ -118,7 +118,7 @@ const EgressOrderForm: React.FC<EgressOrderFormProps> = ({ ingress }) => {
             render={({ field: { onChange, value } }) => (
               <Autocomplete
                 disablePortal
-                id="movile"
+                id="movil"
                 options={moviles || []}
                 getOptionLabel={(option) =>
                   `${option.internal_register} - ${option.model} ${option.domain}`

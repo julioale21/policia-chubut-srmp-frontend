@@ -4,7 +4,7 @@ export function createOrderListData(
   order_number: string,
   repair_description: string,
   fuelLevel: string,
-  movile: {
+  movil: {
     id: string;
     brand: string;
     model: string;
@@ -19,6 +19,6 @@ export function createOrderListData(
     order_number,
     repair_description,
     fuelLevel,
-    movile,
+    movil,
   };
 }

@@ -3,7 +3,7 @@ import { useEquipements } from "../../equipement/hooks/useEquipements";
 import { useMoviles } from "../../movil/hooks/useMoviles";
 import { useMutateCreateIngress } from "./useMutateCreateIngress";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
-import { IFormInput, Ingress, Movile } from "../types";
+import { IFormInput, Ingress, Movil } from "../types";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ import { useMutateUpdateIngress } from "./useMutateUpdateIngress";
 
 export const useIngressForm = (ingress?: Ingress) => {
   const { data: moviles } = useMoviles();
-  const [selectedMovil, setSelectedMovil] = useState<Movile | null | undefined>(
+  const [selectedMovil, setSelectedMovil] = useState<Movil | null | undefined>(
     null
   );
   const { data: equipements } = useEquipements();
@@ -21,9 +21,9 @@ export const useIngressForm = (ingress?: Ingress) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (moviles && ingress?.movile) {
+    if (moviles && ingress?.movil) {
       const foundMovil = moviles.find(
-        (m) => m.internal_register === ingress?.movile?.internal_register
+        (m) => m.internal_register === ingress?.movil?.internal_register
       );
       setSelectedMovil(foundMovil);
     }
@@ -47,8 +47,8 @@ export const useIngressForm = (ingress?: Ingress) => {
         : [],
       movil_fuel_level: ingress?.fuel_level || 0,
       movil_kilometers: ingress?.kilometers || 0,
-      movil_ri: ingress?.movile
-        ? `${ingress.movile.internal_register} - ${ingress.movile.model} ${ingress.movile.domain}`
+      movil_ri: ingress?.movil
+        ? `${ingress?.movil.internal_register} - ${ingress?.movil.model} ${ingress?.movil.domain}`
         : "",
     },
   });
@@ -70,14 +70,14 @@ export const useIngressForm = (ingress?: Ingress) => {
 
   const onFormSubmit = (data: IFormInput) => {
     const internal_register = data.movil_ri.split(" - ")[0].trim();
-    const movile = moviles?.find(
+    const movil = moviles?.find(
       (movil) => movil.internal_register === internal_register
     );
 
     const payload: Ingress = {
       date: data.date == "" ? null : dayjs(data.date).toDate(),
       order_number: data.order_number,
-      movile_id: movile?.id,
+      movil_id: movil?.id,
       kilometers: parseInt(data.movil_kilometers.toString()),
       fuel_level: parseInt(data.movil_fuel_level.toString()),
       repair_description: data.description,

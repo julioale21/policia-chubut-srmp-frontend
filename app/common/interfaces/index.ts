@@ -5,7 +5,7 @@ export interface Order {
   repair_description: string;
   order_number: string;
   fuel_level: number;
-  movile: Movil;
+  movil: Movil;
 }
 
 export interface Movil {
