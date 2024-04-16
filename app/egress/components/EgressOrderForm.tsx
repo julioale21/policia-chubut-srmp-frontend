@@ -16,13 +16,14 @@ import { useMechanics } from "@/app/mechanic/hooks/useMechanics";
 import { Mechanic } from "@/app/mechanic/types";
 import dayjs from "dayjs";
 import { useMoviles } from "@/app/movil/hooks/useMoviles";
+import { useSpareParts } from "@/app/spare_part/hooks/useSparePart";
 
 interface EgressOrderFormProps {
   ingress?: Ingress;
 }
 
 interface IForm {
-  sparePart: { id: number; label: string } | null;
+  sparePart: SparePart | null;
   mechanic: Mechanic | null;
   mechanic_boss: Mechanic | null;
   date: string | null;
@@ -32,10 +33,9 @@ interface IForm {
 const EgressOrderForm: React.FC<EgressOrderFormProps> = ({ ingress }) => {
   const { data: mechanics } = useMechanics();
   const { data: moviles } = useMoviles();
+  const { data: sparePartsList } = useSpareParts();
 
-  const [spareParts, setSpareParts] = React.useState<
-    { id: number; label: string }[]
-  >([]);
+  const [spareParts, setSpareParts] = React.useState<SparePart[]>([]);
 
   const {
     control,
@@ -62,6 +62,10 @@ const EgressOrderForm: React.FC<EgressOrderFormProps> = ({ ingress }) => {
       resetField("sparePart");
     }
   };
+
+  function handleRemoveitem(sparePart: SparePart): void {
+    setSpareParts(spareParts.filter((part) => part.id !== sparePart.id));
+  }
 
   return (
     <Paper sx={{ width: ["80%", "100%"], maxWidth: 700, padding: [2, 5] }}>
@@ -223,12 +227,11 @@ const EgressOrderForm: React.FC<EgressOrderFormProps> = ({ ingress }) => {
                 fullWidth
                 disablePortal
                 id="cbx-spare-part"
-                options={[
-                  { id: 1, label: "filtro de aire" },
-                  { id: 2, label: "filtro de aceite" },
-                  { id: 3, label: "filtro de gasolina" },
-                ]}
-                getOptionLabel={(option) => option.label || ""}
+                options={sparePartsList || []}
+                getOptionLabel={(option) =>
+                  `${option.brand}: ${option.model} - ${option.description}` ||
+                  ""
+                }
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 onChange={(event, newValue) => {
                   field.onChange(newValue);
@@ -249,17 +252,24 @@ const EgressOrderForm: React.FC<EgressOrderFormProps> = ({ ingress }) => {
           <Button sx={{ alignSelf: "right", ml: 5 }}>Solicitar repuesto</Button>
         </Stack>
 
-        <Stack width="100%" mt={3}>
+        <Stack width="100%" mt={3} gap={2}>
           {spareParts.map((sparePart) => (
-            <Stack key={sparePart.id}>
-              <Typography>{sparePart.label}</Typography>
+            <Stack key={sparePart.id} border="1px solid green" padding={2}>
+              <Typography>Marca: {sparePart.brand}</Typography>
+              <Typography>Modelo: {sparePart.model}</Typography>
+              <Typography>Descripción: {sparePart.description}</Typography>
+              <Stack>
+                <Button onClick={() => handleRemoveitem(sparePart)}>
+                  Quitar
+                </Button>
+              </Stack>
             </Stack>
           ))}
         </Stack>
-      </Stack>
 
-      <Stack mt={6} width="100%" direction="row" justifyContent="flex-end">
-        <Button>Crear orden</Button>
+        <Stack mt={6} width="100%" direction="row" justifyContent="flex-end">
+          <Button>Crear orden</Button>
+        </Stack>
       </Stack>
     </Paper>
   );
