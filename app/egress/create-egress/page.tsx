@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Stack } from "@mui/material";
-import EgressOrderForm from "../components/EgressOrderForm";
 import { useSearchParams } from "next/navigation";
 import { useIngressById } from "@/app/ingress/hooks/useIngressById";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
+import { EgressOrderForm } from "../components/EgressOrderForm";
 
 const CreateEgressOrderPage = () => {
   const searchParams = useSearchParams();
@@ -17,7 +17,7 @@ const CreateEgressOrderPage = () => {
   if (isLoading) return <div>Loading...</div>;
 
   if (!isLoading && !ingress) {
-    navigate("/ingress");
+    navigate("/");
   }
 
   return (

@@ -20,7 +20,6 @@ export const useLogIn = () => {
     });
 
     if (responseNextAuth?.error) {
-      console.log(responseNextAuth.error);
       return;
     }
 
