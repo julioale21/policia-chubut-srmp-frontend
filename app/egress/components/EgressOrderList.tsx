@@ -1,35 +1,32 @@
 "use client";
+
 import React from "react";
-
-import { Button, Stack, TablePagination, Typography } from "@mui/material";
-
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-
+import { Stack, TablePagination, Typography } from "@mui/material";
+import { useEgressOrders } from "../hooks/useEgressOrders";
 import ViewListIcon from "@mui/icons-material/ViewList";
-import { IngressOrderTable } from "./IngressOrderTable";
+import { EgressOrderTable } from "./EgressOrdersTable";
 import { useOrdersTables } from "@/app/common/hooks/useOrdersTable";
-import { useIngressOrders } from "../hooks/useIngressOrders";
 
-export const IngressOrdersList = () => {
+export const EgressOrdersList = () => {
   const {
     ordersData,
     isLoading,
     isError,
+    search,
     page,
     rowsPerPage,
-    search,
     handlePageChange,
     handleLimitChange,
-    handleCreateEntity,
     handleSearchChange,
   } = useOrdersTables({
-    fetchOrdersFunction: useIngressOrders,
-    entity: "ingress",
+    fetchOrdersFunction: useEgressOrders,
+    entity: "egress",
   });
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;
-  if (!ordersData.ingresses) return <div>No orders</div>;
+
+  if (!ordersData) return <div>No orders</div>;
 
   return (
     <Stack width="70%">
@@ -41,11 +38,11 @@ export const IngressOrdersList = () => {
       >
         <ViewListIcon fontSize="large" />
         <Typography fontSize={[24, 48]} mb={5} mt={5} component="h2">
-          Ordenes de ingreso
+          Ordenes de egreso
         </Typography>
       </Stack>
-      <IngressOrderTable
-        orders={ordersData.ingresses}
+      <EgressOrderTable
+        orders={ordersData.egressOrders}
         handleSearch={handleSearchChange}
         searchTerm={search}
       />
@@ -59,21 +56,6 @@ export const IngressOrdersList = () => {
         onRowsPerPageChange={handleLimitChange}
         labelRowsPerPage="Resultados por pagina"
       />
-      <Stack
-        mt={3}
-        mb={10}
-        width="100%"
-        direction="row"
-        justifyContent="flex-end"
-      >
-        <Button
-          variant="outlined"
-          endIcon={<AddOutlinedIcon />}
-          onClick={handleCreateEntity}
-        >
-          Crear orden
-        </Button>
-      </Stack>
     </Stack>
   );
 };

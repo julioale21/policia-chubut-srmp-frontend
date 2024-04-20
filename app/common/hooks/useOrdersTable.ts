@@ -1,23 +1,29 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
-import { useIngressOrders } from "@/app/ingress/hooks/useIngressOrders";
-import { createOrderListData } from "../utils/createOrderListData";
-import { Order } from "@/app/common/interfaces";
 
-export const useOrderTables = () => {
+interface OrderTableProps {
+  fetchOrdersFunction: (page: number, limit: number, search?: string) => any;
+  entity: string;
+}
+
+export const useOrdersTables = ({
+  fetchOrdersFunction,
+  entity,
+}: OrderTableProps) => {
+  const navigate = useNavigate();
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [search, setSearch] = useState<string | undefined>();
+
   const {
     data: ordersData,
     isLoading,
     isError,
-  } = useIngressOrders(page, limit, search);
-  const navigate = useNavigate();
+  } = fetchOrdersFunction(page, limit, search);
 
-  const handleCreateIngress = () => {
-    navigate("/ingress/create-ingress");
+  const handleCreateEntity = () => {
+    navigate(`/${entity}/create-${entity}`);
   };
 
   const handlePageChange = (event: any, newPage: number) => {
@@ -41,33 +47,14 @@ export const useOrderTables = () => {
     setLimit(parseInt(event.target.value, 10));
   };
 
-  const orderRows = ordersData?.ingresses?.map((order: Order) => {
-    return createOrderListData(
-      order.id,
-      order.date,
-      order.order_number,
-      order.repair_description,
-      order.fuel_level.toString(),
-      {
-        id: order.movil.id,
-        brand: order.movil.brand,
-        model: order.movil.model,
-        domain: order.movil.domain,
-        internal_register: order.movil.internal_register,
-        kilometers: order.kilometers,
-      }
-    );
-  });
-
   return {
     ordersData,
-    orderRows,
     isLoading,
     isError,
     search,
     page,
     rowsPerPage,
-    handleCreateIngress,
+    handleCreateEntity,
     handlePageChange,
     handleLimitChange,
     handleSearchChange,
