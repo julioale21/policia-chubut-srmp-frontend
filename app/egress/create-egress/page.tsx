@@ -22,7 +22,7 @@ const CreateEgressOrderPage = () => {
 
   return (
     <Stack
-      height="100vh"
+      minHeight="100vh"
       width="100%"
       alignItems="center"
       justifyContent="center"

@@ -38,6 +38,11 @@ interface IForm {
   observations: string;
 }
 
+interface Item {
+  sparePart: SparePart;
+  quantity: number;
+}
+
 export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
   ingress,
 }) => {
@@ -49,7 +54,7 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
   const { data: sparePartsList } = useSpareParts();
   const { mutate: createEgressOrder } = useMutateCreateEgress();
 
-  const [spareParts, setSpareParts] = React.useState<SparePart[]>([]);
+  const [sparePartsArray, setSparePartsArray] = React.useState<Item[]>([]);
 
   const {
     control,
@@ -85,35 +90,87 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
       mechanic_id: data.mechanic?.id || "",
       movil_id: data.movil?.id,
       ingress_id: ingress?.id || "",
-      spare_parts: spareParts.map((part) => ({ id: part.id, quantity: 1 })),
+      spare_parts: sparePartsArray.map((part) => ({
+        id: part.sparePart.id,
+        quantity: part.quantity,
+      })),
     };
 
-    createEgressOrder(egressOrder, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["egressOrders", 0, 10, ""],
-        });
+    console.log(egressOrder);
 
-        showSuccess("Orden de egreso creada correctamente");
-        navigate("/egress");
-      },
-      onError: (err) => {
-        showError("Error al crear la orden de egreso, Verifique los datos.");
-      },
-    });
+    // createEgressOrder(egressOrder, {
+    //   onSuccess: () => {
+    //     queryClient.invalidateQueries({
+    //       queryKey: ["egressOrders", 0, 10, ""],
+    //     });
+
+    //     showSuccess("Orden de egreso creada correctamente");
+    //     navigate("/egress");
+    //   },
+    //   onError: (err) => {
+    //     showError("Error al crear la orden de egreso, Verifique los datos.");
+    //   },
+    // });
   };
 
   const handleAddSparePart = () => {
     const sparePart = getValues("sparePart");
-    if (sparePart && !spareParts.some((part) => part.id === sparePart.id)) {
-      setSpareParts([...spareParts, sparePart]);
+    if (
+      sparePart &&
+      !sparePartsArray.some((item) => item.sparePart.id === sparePart.id)
+    ) {
+      setSparePartsArray([...sparePartsArray, { sparePart, quantity: 1 }]);
       resetField("sparePart");
+    } else {
+      const index = sparePartsArray.findIndex(
+        (item) => item.sparePart.id === sparePart?.id
+      );
+      if (index !== -1) {
+        const newSparePartsArray = [...sparePartsArray];
+        newSparePartsArray[index].quantity += 1;
+        setSparePartsArray(newSparePartsArray);
+      }
     }
   };
 
-  function handleRemoveitem(sparePart: SparePart): void {
-    setSpareParts(spareParts.filter((part) => part.id !== sparePart.id));
+  function handleRemoveitem(item: Item): void {
+    setSparePartsArray(
+      sparePartsArray.filter((item) => item.sparePart.id !== item.sparePart.id)
+    );
   }
+
+  const handleIncrementItem = (item: Item) => {
+    const index = sparePartsArray.findIndex(
+      (sparePart) => sparePart.sparePart.id === item.sparePart.id
+    );
+
+    if (index !== -1) {
+      const newSparePartsArray = [...sparePartsArray];
+      newSparePartsArray[index].quantity += 1;
+      setSparePartsArray(newSparePartsArray);
+    }
+  };
+
+  const handleDecrementItem = (item: Item) => {
+    const index = sparePartsArray.findIndex(
+      (sparePart) => sparePart.sparePart.id === item.sparePart.id
+    );
+
+    if (index !== -1) {
+      const newSparePartsArray = [...sparePartsArray];
+      newSparePartsArray[index].quantity -= 1;
+
+      if (newSparePartsArray[index].quantity === 0) {
+        setSparePartsArray(
+          sparePartsArray.filter(
+            (sparePart) => sparePart.sparePart.id !== item.sparePart.id
+          )
+        );
+      } else {
+        setSparePartsArray(newSparePartsArray);
+      }
+    }
+  };
 
   return (
     <Paper sx={{ width: ["80%", "100%"], maxWidth: 700, padding: [2, 5] }}>
@@ -192,37 +249,6 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
               />
             )}
           />
-          {/* <Controller
-            name="movil"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Autocomplete
-                disablePortal
-                id="movil"
-                options={moviles || []}
-                getOptionLabel={(option) =>
-                  `${option.internal_register} - ${option.model} ${option.domain}`
-                }
-                value={moviles?.find(
-                  (movil) =>
-                    `${movil.internal_register} - ${movil.model} ${movil.domain}` ===
-                    value
-                )}
-                onChange={(event, newValue) => {
-                  onChange(newValue);
-                }}
-                fullWidth
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Seleccione el Móvil"
-                    error={!!errors.movil}
-                    helperText={errors.movil?.message}
-                  />
-                )}
-              />
-            )}
-          /> */}
         </Stack>
 
         <Stack mt={2}>
@@ -329,17 +355,14 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
         </Stack>
 
         <Stack width="100%" mt={3} gap={2}>
-          {spareParts.map((sparePart) => (
-            <Stack key={sparePart.id} border="1px solid green" padding={2}>
-              <Typography>Marca: {sparePart.brand}</Typography>
-              <Typography>Modelo: {sparePart.model}</Typography>
-              <Typography>Descripción: {sparePart.description}</Typography>
-              <Stack>
-                <Button onClick={() => handleRemoveitem(sparePart)}>
-                  Quitar
-                </Button>
-              </Stack>
-            </Stack>
+          {sparePartsArray.map((item) => (
+            <OrderItem
+              key={item.sparePart.id}
+              item={item}
+              onRemove={() => handleRemoveitem(item)}
+              onDecrement={() => handleDecrementItem(item)}
+              onIncrement={() => handleIncrementItem(item)}
+            />
           ))}
         </Stack>
 
@@ -348,5 +371,53 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
         </Stack>
       </Stack>
     </Paper>
+  );
+};
+
+interface OrderItemProps {
+  item: Item;
+  stock?: number;
+  onRemove: () => void;
+  onIncrement: () => void;
+  onDecrement: () => void;
+}
+
+const OrderItem: React.FC<OrderItemProps> = ({
+  item,
+  onRemove,
+  onDecrement,
+  onIncrement,
+}) => {
+  return (
+    <Stack border="0.5px solid gray" padding={2} borderRadius={2}>
+      <Stack direction="row" gap={2}>
+        <Stack flex={1}>
+          <Typography>Marca: {item.sparePart.brand}</Typography>
+          <Typography>Modelo: {item.sparePart.model}</Typography>
+          <Typography>Descripción: {item.sparePart.description}</Typography>
+        </Stack>
+        <Stack gap={1}>
+          <Button onClick={onIncrement} variant="outlined" size="small">
+            +
+          </Button>
+          <Stack
+            border="1px solid"
+            borderColor="lightblue"
+            borderRadius={2}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Typography>{item.quantity}</Typography>
+          </Stack>
+          <Button onClick={onDecrement} variant="outlined" size="small">
+            -
+          </Button>
+        </Stack>
+      </Stack>
+
+      <Stack>
+        <Button onClick={onRemove}>Eliminar</Button>
+      </Stack>
+    </Stack>
   );
 };
