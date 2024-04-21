@@ -5,7 +5,7 @@ import { Stack } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useIngressById } from "@/app/ingress/hooks/useIngressById";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
-import { EgressOrderForm } from "../components/EgressOrderForm";
+import { EgressOrderForm } from "../components/form/EgressOrderForm";
 
 const CreateEgressOrderPage = () => {
   const searchParams = useSearchParams();

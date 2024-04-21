@@ -1,28 +1,22 @@
 "use client";
 
 import React from "react";
-import {
-  Autocomplete,
-  Button,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, Button, Paper, Stack, TextField } from "@mui/material";
 import { CustomTitle } from "@/app/common/components/CustomTitle";
 import { Ingress } from "@/app/ingress/types";
-import { Controller, Form, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useMechanics } from "@/app/mechanic/hooks/useMechanics";
 import { Mechanic } from "@/app/mechanic/types";
 import dayjs from "dayjs";
 import { useMoviles } from "@/app/movil/hooks/useMoviles";
 import { useSpareParts } from "@/app/spare_part/hooks/useSparePart";
-import { CreateEgressDto } from "../types";
-import { useMutateCreateEgress } from "../hooks/useMutateCreateEgressOrder";
+import { CreateEgressDto } from "../../types";
+import { useMutateCreateEgress } from "../../hooks/useMutateCreateEgressOrder";
 import { Movil } from "@/app/common/interfaces";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
 import { useCustomSnackbar } from "@/app/common/hooks/useCustomSnackbar";
+import { Item, OrderItem } from "./OrderItem";
 
 interface EgressOrderFormProps {
   ingress?: Ingress;
@@ -36,11 +30,6 @@ interface IForm {
   movil: Movil | null;
   egress_order: string;
   observations: string;
-}
-
-interface Item {
-  sparePart: SparePart;
-  quantity: number;
 }
 
 export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
@@ -201,6 +190,9 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
           <Controller
             control={control}
             name="egress_order"
+            rules={{
+              required: "El número de orden de egreso es requerido",
+            }}
             render={({ field }) => (
               <TextField
                 fullWidth
@@ -229,6 +221,9 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
           <Controller
             name="movil"
             control={control}
+            rules={{
+              required: "El móvil es requerido",
+            }}
             render={({ field }) => (
               <Autocomplete
                 fullWidth
@@ -243,7 +238,12 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
                   field.onChange(newValue);
                 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Seleccione el Móvil" />
+                  <TextField
+                    error={!!errors.movil}
+                    helperText={errors ? errors.movil?.message : null}
+                    {...params}
+                    label="Seleccione el Móvil"
+                  />
                 )}
                 value={field.value}
               />
@@ -255,6 +255,9 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
           <Controller
             name="mechanic"
             control={control}
+            rules={{
+              required: "El mecánico es requerido",
+            }}
             render={({ field }) => (
               <Autocomplete
                 fullWidth
@@ -272,6 +275,8 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
                   <TextField
                     {...params}
                     label="Meánico asignado a la reparación"
+                    error={!!errors.mechanic}
+                    helperText={errors ? errors.mechanic?.message : null}
                   />
                 )}
                 value={field.value}
@@ -284,6 +289,9 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
           <Controller
             name="mechanic_boss"
             control={control}
+            rules={{
+              required: "El jefe de mecánicos es requerido",
+            }}
             render={({ field }) => (
               <Autocomplete
                 fullWidth
@@ -301,6 +309,8 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
                   <TextField
                     {...params}
                     label="Jéfe de mecánicos asignado a la reparación"
+                    error={!!errors.mechanic_boss}
+                    helperText={errors ? errors.mechanic_boss?.message : null}
                   />
                 )}
                 value={field.value}
@@ -310,13 +320,23 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
         </Stack>
 
         <Stack direction="row" gap={2} mt={2} width="100%">
-          <TextField
-            fullWidth
-            id="description"
-            label="Descripción de la reparación ..."
-            multiline
-            rows={4}
-            type="text"
+          <Controller
+            control={control}
+            name="observations"
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                id="observations"
+                label="Descripción de la reparación ..."
+                multiline
+                rows={4}
+                type="text"
+                value={field.value}
+                error={!!errors.observations}
+                helperText={errors.observations?.message}
+              />
+            )}
           />
         </Stack>
 
@@ -371,53 +391,5 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
         </Stack>
       </Stack>
     </Paper>
-  );
-};
-
-interface OrderItemProps {
-  item: Item;
-  stock?: number;
-  onRemove: () => void;
-  onIncrement: () => void;
-  onDecrement: () => void;
-}
-
-const OrderItem: React.FC<OrderItemProps> = ({
-  item,
-  onRemove,
-  onDecrement,
-  onIncrement,
-}) => {
-  return (
-    <Stack border="0.5px solid gray" padding={2} borderRadius={2}>
-      <Stack direction="row" gap={2}>
-        <Stack flex={1}>
-          <Typography>Marca: {item.sparePart.brand}</Typography>
-          <Typography>Modelo: {item.sparePart.model}</Typography>
-          <Typography>Descripción: {item.sparePart.description}</Typography>
-        </Stack>
-        <Stack gap={1}>
-          <Button onClick={onIncrement} variant="outlined" size="small">
-            +
-          </Button>
-          <Stack
-            border="1px solid"
-            borderColor="lightblue"
-            borderRadius={2}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Typography>{item.quantity}</Typography>
-          </Stack>
-          <Button onClick={onDecrement} variant="outlined" size="small">
-            -
-          </Button>
-        </Stack>
-      </Stack>
-
-      <Stack>
-        <Button onClick={onRemove}>Eliminar</Button>
-      </Stack>
-    </Stack>
   );
 };
