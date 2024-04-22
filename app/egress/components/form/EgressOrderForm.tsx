@@ -85,21 +85,19 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
       })),
     };
 
-    console.log(egressOrder);
+    createEgressOrder(egressOrder, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["egressOrders", 0, 10, ""],
+        });
 
-    // createEgressOrder(egressOrder, {
-    //   onSuccess: () => {
-    //     queryClient.invalidateQueries({
-    //       queryKey: ["egressOrders", 0, 10, ""],
-    //     });
-
-    //     showSuccess("Orden de egreso creada correctamente");
-    //     navigate("/egress");
-    //   },
-    //   onError: (err) => {
-    //     showError("Error al crear la orden de egreso, Verifique los datos.");
-    //   },
-    // });
+        showSuccess("Orden de egreso creada correctamente");
+        navigate("/egress");
+      },
+      onError: (err) => {
+        showError("Error al crear la orden de egreso, Verifique los datos.");
+      },
+    });
   };
 
   const handleAddSparePart = () => {

@@ -25,7 +25,7 @@ export interface SparePartOrder {
 
 
 export interface SparePartDto {
-  id: string;
+  id?: string;
   quantity: number;
 }
 

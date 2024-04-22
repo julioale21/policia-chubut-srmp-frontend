@@ -115,11 +115,11 @@ export const IngressForm: React.FC<IngressFormProps> = ({ ingress }) => {
               required: "Debe ingresar el nivel de combustible del movil",
               min: {
                 value: 0,
-                message: "El valor mínimo es 0", // Custom message for the min value
+                message: "El valor mínimo es 0",
               },
               max: {
-                value: 100, // Assuming 10000 is the maximum value
-                message: "El valor máximo es 100", // Custom message for the max value
+                value: 100,
+                message: "El valor máximo es 100",
               },
             })}
             error={!!errors.movil_fuel_level}
