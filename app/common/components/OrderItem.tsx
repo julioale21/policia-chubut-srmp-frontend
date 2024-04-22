@@ -34,7 +34,7 @@ export const OrderItem: React.FC<OrderItemProps> = ({
           <Stack
             border="1px solid"
             borderColor="lightblue"
-            borderRadius={2}
+            borderRadius={1}
             alignItems="center"
             justifyContent="center"
           >

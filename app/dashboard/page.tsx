@@ -21,6 +21,8 @@ const DashboardPage: React.FC = () => {
 
       <Link href="/ingress">Ordenes de ingreso</Link>
       <Link href="/egress">Ordenes de egreso</Link>
+      <Link href="/spare_part/create">Crear nuevo producto</Link>
+      <Link href="/spare_part_order/create">Crear ingreso producto</Link>
     </Stack>
   );
 };
