@@ -1,9 +1,8 @@
+
+import { Item } from "@/app/spare_part_order/types";
 import { Button, Stack, Typography } from "@mui/material";
 
-export interface Item {
-  sparePart: SparePart;
-  quantity: number;
-}
+
 
 interface OrderItemProps {
   item: Item;

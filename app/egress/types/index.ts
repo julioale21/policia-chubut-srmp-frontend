@@ -1,6 +1,7 @@
 import { Movil } from "@/app/common/interfaces";
 import { Ingress } from "@/app/ingress/types";
 import { Mechanic } from "@/app/mechanic/types";
+import { SparePartOrder } from "@/app/spare_part_order/types";
 
 export interface EgressOrder {
   id: string;
@@ -13,14 +14,6 @@ export interface EgressOrder {
   mechanic: Mechanic;
   mechanic_boss: Mechanic;
   spare_part_order: SparePartOrder;
-}
-
-export interface SparePartOrder {
-  id: string;
-  order_number: string;
-  date: Date;
-  observations: string;
-  type: string;
 }
 
 

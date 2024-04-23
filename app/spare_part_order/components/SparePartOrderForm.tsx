@@ -8,6 +8,10 @@ import { OrderItem } from "@/app/common/components";
 import dayjs from "dayjs";
 import { useProviders } from "@/app/provider/hooks/useProviders";
 import { Provider } from "@/app/provider/types";
+import { Item, SparePartOrder } from "../types";
+import { useMutateCreateSparePartOrder } from "../hooks/useMutateCreateSparePartOrder";
+import { useCustomSnackbar } from "@/app/common/hooks/useCustomSnackbar";
+import { useNavigate } from "@/app/common/hooks/useNavigate";
 
 interface IFormInput {
   order_number: string;
@@ -18,15 +22,13 @@ interface IFormInput {
   provider: Provider | null;
 }
 
-interface Item {
-  sparePart: SparePart;
-  quantity: number;
-}
-
 const SparePartOrderForm = () => {
   const [itemsArray, setItemsArray] = React.useState<Item[]>([]);
   const { data: spareParts } = useSpareParts();
   const { data: providers } = useProviders();
+  const { mutate: createSparePartOrder } = useMutateCreateSparePartOrder();
+  const { showSuccess, showError } = useCustomSnackbar();
+  const navigate = useNavigate();
 
   const {
     control,
@@ -39,25 +41,36 @@ const SparePartOrderForm = () => {
       order_number: "",
       order_item: null,
       quantity: 1,
+      provider: null,
       order_date: dayjs().format("YYYY-MM-DD"),
       description: "",
     },
   });
 
   const onSubmit = (data: IFormInput) => {
-    const payload = {
+    const payload: SparePartOrder = {
       order_number: data.order_number,
-      order_type: "in",
-      date: data.order_date,
+      type: "in",
+      date: dayjs(data.order_date).toDate(),
       observations: data.description,
       provider_id: data.provider?.id,
-      items: itemsArray.map((item) => ({
+      spare_part_items: itemsArray.map((item) => ({
         spare_part_id: item.sparePart.id,
         quantity: item.quantity,
       })),
     };
 
-    console.log(payload);
+    createSparePartOrder(payload, {
+      onSuccess: () => {
+        showSuccess("Orden de repuesto creada correctamente");
+        setItemsArray([]);
+        navigate("/dashboard");
+      },
+      onError: (error) => {
+        showError("Error al crear la orden de repuesto");
+        console.error(error);
+      },
+    });
   };
 
   const handleAddItem = () => {
