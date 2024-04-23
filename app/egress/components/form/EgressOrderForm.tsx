@@ -17,6 +17,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
 import { useCustomSnackbar } from "@/app/common/hooks/useCustomSnackbar";
 import { OrderItem } from "../../../common/components/OrderItem";
+import { Item } from "@/app/spare_part_order/types";
 
 interface EgressOrderFormProps {
   ingress?: Ingress;
