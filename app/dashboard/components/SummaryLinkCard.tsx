@@ -8,7 +8,7 @@ interface SummaryLinkCardProps {
   href: string;
   title: string;
   value: number;
-  icon: React.ReactElement;
+  icon?: React.ReactElement;
 }
 
 const SummaryLinkCard: React.FC<SummaryLinkCardProps> = ({

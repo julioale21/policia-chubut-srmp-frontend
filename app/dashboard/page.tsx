@@ -1,35 +1,4 @@
 "use client";
-// import React from "react";
-// import { Stack, Typography } from "@mui/material";
-// import Link from "next/link";
-// import { useSession } from "next-auth/react";
-// import { useNavigate } from "../common/hooks/useNavigate";
-
-// const DashboardPage: React.FC = () => {
-//   const session = useSession();
-//   const navigate = useNavigate();
-
-//   if (session.status === "unauthenticated") {
-//     navigate("/");
-//   }
-
-//   return (
-//     <Stack alignItems="center" justifyContent="center">
-//       <Typography mt={5} fontSize={32}>
-//         Dashboard
-//       </Typography>
-
-//       <Link href="/ingress">Ordenes de ingreso</Link>
-//       <Link href="/egress">Ordenes de egreso</Link>
-//       <Link href="/spare_part/create">Crear nuevo producto</Link>
-//       <Link href="/spare_part_order/create">Crear ingreso producto</Link>
-//       <Link href="/provider">Lista de Proveedores</Link>
-//       <Link href="/provider/create">Crear nuevo Proveedor</Link>
-//     </Stack>
-//   );
-// };
-
-// pages/dashboard.js
 import * as React from "react";
 import {
   Box,
@@ -46,7 +15,7 @@ import {
   Paper,
   Stack,
 } from "@mui/material";
-import { Bar } from "react-chartjs-2";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -56,8 +25,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import Link from "next/link";
+import { Bar } from "react-chartjs-2";
 import { SummaryLinkCard } from "./components";
+import { useSession } from "next-auth/react";
+import { useNavigate } from "../common/hooks/useNavigate";
 
 ChartJS.register(
   CategoryScale,
@@ -69,6 +40,12 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
+  const session = useSession();
+  const navigate = useNavigate();
+
+  if (session.status === "unauthenticated") {
+    navigate("/");
+  }
   const data = {
     labels: ["Enero", "Febrero", "Marzo", "Abril"],
     datasets: [
