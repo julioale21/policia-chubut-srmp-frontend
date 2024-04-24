@@ -192,7 +192,9 @@ const SparePartOrderForm = () => {
                 disablePortal
                 id="provider"
                 options={providers || []}
-                getOptionLabel={(option) => option.name || ""}
+                getOptionLabel={(option) =>
+                  `${option.name} - ${option.city || ""}` || ""
+                }
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 onChange={(event, newValue) => {
                   field.onChange(newValue);
