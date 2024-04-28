@@ -12,6 +12,7 @@ import { Stack, Tooltip } from "@mui/material";
 import { signOut } from "next-auth/react";
 import { useNavigate } from "../../hooks/useNavigate";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function MenuAppBar() {
   const [auth] = React.useState(true);
@@ -31,16 +32,59 @@ export default function MenuAppBar() {
     <Box sx={{ flexGrow: 1, m: 0 }}>
       <AppBar position="sticky" sx={{ color: "white", bgcolor: "black" }}>
         <Toolbar>
-          <Typography
-            onClick={() => navigate("/dashboard")}
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, cursor: "pointer" }}
-          >
-            Policia del chubut
-          </Typography>
+          <Stack>
+            <Typography
+              onClick={() => navigate("/dashboard")}
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, cursor: "pointer" }}
+            >
+              Policia del chubut
+            </Typography>
+          </Stack>
           {auth && (
-            <Stack direction="row">
+            <Stack direction="row" flex={1} justifyContent="flex-end">
+              <Stack
+                flex={1}
+                gap={3}
+                direction="row"
+                justifyContent="flex-end"
+                mr={3}
+                alignItems="center"
+                display={["none", "none", "flex"]}
+              >
+                <Link
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                  }}
+                  href="/dashboard"
+                >
+                  Home
+                </Link>
+
+                <Link
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                  }}
+                  href="/ingress"
+                >
+                  Ordenes de ingreso
+                </Link>
+                <Link
+                  style={{ textDecoration: "none", color: "white" }}
+                  href="/egress"
+                >
+                  Ordenes de egreso
+                </Link>
+                <Link
+                  style={{ textDecoration: "none", color: "white" }}
+                  href="/provider"
+                >
+                  Proveedores
+                </Link>
+              </Stack>
               <Tooltip title={session?.user.name}>
                 <IconButton
                   size="large"

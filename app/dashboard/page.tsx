@@ -29,6 +29,8 @@ import { Bar } from "react-chartjs-2";
 import { SummaryLinkCard } from "./components";
 import { useSession } from "next-auth/react";
 import { useNavigate } from "../common/hooks/useNavigate";
+import { useStatistics } from "../statistics/hooks/useStatistics";
+import { translateMonthToSpanish } from "../statistics/utils";
 
 ChartJS.register(
   CategoryScale,
@@ -42,16 +44,37 @@ ChartJS.register(
 export default function Dashboard() {
   const session = useSession();
   const navigate = useNavigate();
+  const { data: statistics } = useStatistics();
+
+  console.log({ statistics });
 
   if (session.status === "unauthenticated") {
     navigate("/");
   }
   const data = {
-    labels: ["Enero", "Febrero", "Marzo", "Abril"],
+    labels: [
+      translateMonthToSpanish(
+        statistics?.ingresses.lastFourMonthsCount[0].month || ""
+      ),
+      translateMonthToSpanish(
+        statistics?.ingresses.lastFourMonthsCount[1].month || ""
+      ),
+      translateMonthToSpanish(
+        statistics?.ingresses.lastFourMonthsCount[2].month || ""
+      ),
+      translateMonthToSpanish(
+        statistics?.ingresses.lastFourMonthsCount[3].month || ""
+      ),
+    ],
     datasets: [
       {
         label: "Número de ordenes",
-        data: [65, 59, 80, 81],
+        data: [
+          statistics?.ingresses.lastFourMonthsCount[0].count,
+          statistics?.ingresses.lastFourMonthsCount[1].count,
+          statistics?.ingresses.lastFourMonthsCount[2].count,
+          statistics?.ingresses.lastFourMonthsCount[3].count,
+        ],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -84,25 +107,25 @@ export default function Dashboard() {
           <SummaryLinkCard
             href="/vehicles"
             title="Total de vehiculos"
-            value={20}
+            value={statistics?.moviles.total || 0}
           />
 
           <SummaryLinkCard
             href="/ingress"
             title="Total ordenes de ingreso"
-            value={100}
+            value={statistics?.ingresses.total || 0}
           />
 
           <SummaryLinkCard
             href="/egress"
             title="Total ordenes de egreso"
-            value={50}
+            value={statistics?.egresses.total || 0}
           />
 
           <SummaryLinkCard
             href="/provider"
             title="Total proveedores"
-            value={50}
+            value={statistics?.providers.total || 0}
           />
         </Grid>
 
@@ -133,17 +156,13 @@ export default function Dashboard() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {[
-                  { id: 1, type: "Truck", status: "Active" },
-                  { id: 2, type: "Sedan", status: "Maintenance" },
-                  { id: 3, type: "SUV", status: "Active" },
-                ].map((row) => (
-                  <TableRow key={row.id}>
+                {statistics?.ingresses?.lastMothOrders.data.map((ingress) => (
+                  <TableRow key={ingress.id}>
                     <TableCell component="th" scope="row">
-                      {row.id}
+                      {ingress.movil?.domain}
                     </TableCell>
-                    <TableCell align="right">{row.type}</TableCell>
-                    <TableCell align="right">{row.status}</TableCell>
+                    <TableCell align="right">{ingress.movil?.internal_register}</TableCell>
+                    <TableCell align="right">{ingress.status}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

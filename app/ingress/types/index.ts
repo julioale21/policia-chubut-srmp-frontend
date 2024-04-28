@@ -27,6 +27,7 @@ export interface Ingress {
   equipements: string[];
   equipementIngress?: EquipementIngress[];
   repair_description: string;
+  status: string;
 }
 
 export interface Movil {
