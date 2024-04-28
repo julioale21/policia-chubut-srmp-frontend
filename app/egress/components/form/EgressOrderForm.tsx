@@ -1,28 +1,23 @@
 "use client";
 
 import React from "react";
-import {
-  Autocomplete,
-  Button,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, Button, Paper, Stack, TextField } from "@mui/material";
 import { CustomTitle } from "@/app/common/components/CustomTitle";
 import { Ingress } from "@/app/ingress/types";
-import { Controller, Form, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useMechanics } from "@/app/mechanic/hooks/useMechanics";
 import { Mechanic } from "@/app/mechanic/types";
 import dayjs from "dayjs";
 import { useMoviles } from "@/app/movil/hooks/useMoviles";
 import { useSpareParts } from "@/app/spare_part/hooks/useSparePart";
-import { CreateEgressDto } from "../types";
-import { useMutateCreateEgress } from "../hooks/useMutateCreateEgressOrder";
+import { CreateEgressDto } from "../../types";
+import { useMutateCreateEgress } from "../../hooks/useMutateCreateEgressOrder";
 import { Movil } from "@/app/common/interfaces";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
 import { useCustomSnackbar } from "@/app/common/hooks/useCustomSnackbar";
+import { OrderItem } from "../../../common/components/OrderItem";
+import { Item } from "@/app/spare_part_order/types";
 
 interface EgressOrderFormProps {
   ingress?: Ingress;
@@ -49,7 +44,7 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
   const { data: sparePartsList } = useSpareParts();
   const { mutate: createEgressOrder } = useMutateCreateEgress();
 
-  const [spareParts, setSpareParts] = React.useState<SparePart[]>([]);
+  const [sparePartsArray, setSparePartsArray] = React.useState<Item[]>([]);
 
   const {
     control,
@@ -85,7 +80,10 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
       mechanic_id: data.mechanic?.id || "",
       movil_id: data.movil?.id,
       ingress_id: ingress?.id || "",
-      spare_parts: spareParts.map((part) => ({ id: part.id, quantity: 1 })),
+      spare_parts: sparePartsArray.map((part) => ({
+        id: part.sparePart.id,
+        quantity: part.quantity,
+      })),
     };
 
     createEgressOrder(egressOrder, {
@@ -105,15 +103,62 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
 
   const handleAddSparePart = () => {
     const sparePart = getValues("sparePart");
-    if (sparePart && !spareParts.some((part) => part.id === sparePart.id)) {
-      setSpareParts([...spareParts, sparePart]);
+    if (
+      sparePart &&
+      !sparePartsArray.some((item) => item.sparePart.id === sparePart.id)
+    ) {
+      setSparePartsArray([...sparePartsArray, { sparePart, quantity: 1 }]);
       resetField("sparePart");
+    } else {
+      const index = sparePartsArray.findIndex(
+        (item) => item.sparePart.id === sparePart?.id
+      );
+      if (index !== -1) {
+        const newSparePartsArray = [...sparePartsArray];
+        newSparePartsArray[index].quantity += 1;
+        setSparePartsArray(newSparePartsArray);
+      }
     }
   };
 
-  function handleRemoveitem(sparePart: SparePart): void {
-    setSpareParts(spareParts.filter((part) => part.id !== sparePart.id));
+  function handleRemoveitem(item: Item): void {
+    setSparePartsArray(
+      sparePartsArray.filter((item) => item.sparePart.id !== item.sparePart.id)
+    );
   }
+
+  const handleIncrementItem = (item: Item) => {
+    const index = sparePartsArray.findIndex(
+      (sparePart) => sparePart.sparePart.id === item.sparePart.id
+    );
+
+    if (index !== -1) {
+      const newSparePartsArray = [...sparePartsArray];
+      newSparePartsArray[index].quantity += 1;
+      setSparePartsArray(newSparePartsArray);
+    }
+  };
+
+  const handleDecrementItem = (item: Item) => {
+    const index = sparePartsArray.findIndex(
+      (sparePart) => sparePart.sparePart.id === item.sparePart.id
+    );
+
+    if (index !== -1) {
+      const newSparePartsArray = [...sparePartsArray];
+      newSparePartsArray[index].quantity -= 1;
+
+      if (newSparePartsArray[index].quantity === 0) {
+        setSparePartsArray(
+          sparePartsArray.filter(
+            (sparePart) => sparePart.sparePart.id !== item.sparePart.id
+          )
+        );
+      } else {
+        setSparePartsArray(newSparePartsArray);
+      }
+    }
+  };
 
   return (
     <Paper sx={{ width: ["80%", "100%"], maxWidth: 700, padding: [2, 5] }}>
@@ -144,6 +189,9 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
           <Controller
             control={control}
             name="egress_order"
+            rules={{
+              required: "El número de orden de egreso es requerido",
+            }}
             render={({ field }) => (
               <TextField
                 fullWidth
@@ -172,6 +220,9 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
           <Controller
             name="movil"
             control={control}
+            rules={{
+              required: "El móvil es requerido",
+            }}
             render={({ field }) => (
               <Autocomplete
                 fullWidth
@@ -186,49 +237,26 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
                   field.onChange(newValue);
                 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Seleccione el Móvil" />
+                  <TextField
+                    error={!!errors.movil}
+                    helperText={errors ? errors.movil?.message : null}
+                    {...params}
+                    label="Seleccione el Móvil"
+                  />
                 )}
                 value={field.value}
               />
             )}
           />
-          {/* <Controller
-            name="movil"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Autocomplete
-                disablePortal
-                id="movil"
-                options={moviles || []}
-                getOptionLabel={(option) =>
-                  `${option.internal_register} - ${option.model} ${option.domain}`
-                }
-                value={moviles?.find(
-                  (movil) =>
-                    `${movil.internal_register} - ${movil.model} ${movil.domain}` ===
-                    value
-                )}
-                onChange={(event, newValue) => {
-                  onChange(newValue);
-                }}
-                fullWidth
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Seleccione el Móvil"
-                    error={!!errors.movil}
-                    helperText={errors.movil?.message}
-                  />
-                )}
-              />
-            )}
-          /> */}
         </Stack>
 
         <Stack mt={2}>
           <Controller
             name="mechanic"
             control={control}
+            rules={{
+              required: "El mecánico es requerido",
+            }}
             render={({ field }) => (
               <Autocomplete
                 fullWidth
@@ -246,6 +274,8 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
                   <TextField
                     {...params}
                     label="Meánico asignado a la reparación"
+                    error={!!errors.mechanic}
+                    helperText={errors ? errors.mechanic?.message : null}
                   />
                 )}
                 value={field.value}
@@ -258,6 +288,9 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
           <Controller
             name="mechanic_boss"
             control={control}
+            rules={{
+              required: "El jefe de mecánicos es requerido",
+            }}
             render={({ field }) => (
               <Autocomplete
                 fullWidth
@@ -275,6 +308,8 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
                   <TextField
                     {...params}
                     label="Jéfe de mecánicos asignado a la reparación"
+                    error={!!errors.mechanic_boss}
+                    helperText={errors ? errors.mechanic_boss?.message : null}
                   />
                 )}
                 value={field.value}
@@ -284,13 +319,23 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
         </Stack>
 
         <Stack direction="row" gap={2} mt={2} width="100%">
-          <TextField
-            fullWidth
-            id="description"
-            label="Descripción de la reparación ..."
-            multiline
-            rows={4}
-            type="text"
+          <Controller
+            control={control}
+            name="observations"
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                id="observations"
+                label="Descripción de la reparación ..."
+                multiline
+                rows={4}
+                type="text"
+                value={field.value}
+                error={!!errors.observations}
+                helperText={errors.observations?.message}
+              />
+            )}
           />
         </Stack>
 
@@ -329,17 +374,14 @@ export const EgressOrderForm: React.FC<EgressOrderFormProps> = ({
         </Stack>
 
         <Stack width="100%" mt={3} gap={2}>
-          {spareParts.map((sparePart) => (
-            <Stack key={sparePart.id} border="1px solid green" padding={2}>
-              <Typography>Marca: {sparePart.brand}</Typography>
-              <Typography>Modelo: {sparePart.model}</Typography>
-              <Typography>Descripción: {sparePart.description}</Typography>
-              <Stack>
-                <Button onClick={() => handleRemoveitem(sparePart)}>
-                  Quitar
-                </Button>
-              </Stack>
-            </Stack>
+          {sparePartsArray.map((item) => (
+            <OrderItem
+              key={item.sparePart.id}
+              item={item}
+              onRemove={() => handleRemoveitem(item)}
+              onDecrement={() => handleDecrementItem(item)}
+              onIncrement={() => handleIncrementItem(item)}
+            />
           ))}
         </Stack>
 
