@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+<p align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlR5RfWd9ND6yOkmWX1AyRJw6ebGJyQYDlc6FS-EUzLA&s" alt="Police Workshop Logo" title="Logo of the Police Workshop Management System"/>
+</p>
+
+# Police Workshop Management System
+
+## Overview
+
+This project is developed for the Police of the State of Chubut, Argentina. It serves as a management system for the mechanical workshop that handles repairs of police vehicles. The system tracks every vehicle that enters for repairs, managing ingress and egress orders, vehicle data, and provider information. It also generates statistical reports to aid in the efficient management of the workshop resources.
+
+## Objectives
+
+- **Tracking and Management:** Manage and track all activities related to the vehicles entering and leaving the workshop.
+- **Authentication:** Secure the application and ensure that only authorized personnel can access the system using NextAuth.
+- **User Interface:** Provide a user-friendly interface using Material UI (MUI) for smooth interactions with the system.
+- **Data Fetching:** Utilize React Query for efficient data fetching and state management of API requests.
+
+## Technologies Used
+
+- **Next.js**: The React framework for production.
+- **NextAuth.js**: For authentication purposes.
+- **React Query**: For handling server state and caching API requests.
+- **Material UI (MUI)**: For designing a comprehensive and responsive UI.
+
+## Project Structure
+
+- **app/**: Contains all feature-specific modules.
+  - **feature-name/**: Each feature of the application like vehicle management, provider management, etc.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v14.x or later)
+- npm (v6.x or later)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:**
+   Use the following commands to clone the repository and navigate into the project directory:
+   
+   git clone https://your-repository-url
+   cd your-project-folder
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. Run 
 
-## Learn More
+yarn install
 
-To learn more about Next.js, take a look at the following resources:
+3. rename .env.example to .env.local and configure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   NEXT_PUBLIC_BACKEND_URL=
+    NEXTAUTH_SECRET=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+4. run
 
-## Deploy on Vercel
+   yarn dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
