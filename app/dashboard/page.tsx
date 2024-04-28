@@ -105,7 +105,7 @@ export default function Dashboard() {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={3}>
           <SummaryLinkCard
-            href="/vehicles"
+            href="/movil"
             title="Total de vehiculos"
             value={statistics?.moviles.total || 0}
           />
