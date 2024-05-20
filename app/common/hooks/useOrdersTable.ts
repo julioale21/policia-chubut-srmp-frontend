@@ -1,9 +1,15 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
+import { EgressOrder } from "@/app/egress/types";
 
 interface OrderTableProps {
   fetchOrdersFunction: (page: number, limit: number, search?: string) => any;
   entity: string;
+}
+
+interface Orders {
+  egressOrders: EgressOrder[];
+  total: number;
 }
 
 export const useOrdersTables = ({
@@ -20,6 +26,10 @@ export const useOrdersTables = ({
     data: ordersData,
     isLoading,
     isError,
+  }: {
+    data: Orders;
+    isLoading: boolean;
+    isError: boolean;
   } = fetchOrdersFunction(page, limit, search);
 
   const handleCreateEntity = () => {

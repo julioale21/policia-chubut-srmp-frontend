@@ -36,6 +36,11 @@ const EgressOrderTable: React.FC<EgressOrderTableProps> = ({
   searchTerm,
 }) => {
   //   const prefetchEgress = usePrefetchEgress();
+
+  if (!orders.length) {
+    return <Typography>No hay ordenes de egreso</Typography>;
+  }
+
   return (
     <Stack direction="column">
       <Stack direction="row" justifyContent="flex-end" marginY={2}>
@@ -56,8 +61,13 @@ const EgressOrderTable: React.FC<EgressOrderTableProps> = ({
                   alignItems="center"
                   gap={1}
                 >
-                  <CalendarTodayIcon color="primary" />
-                  <Typography color="primary">Fecha de ingreso</Typography>
+                  <CalendarTodayIcon
+                    sx={{ fontSize: [15, 35] }}
+                    color="primary"
+                  />
+                  <Typography fontSize={[10, 12]} color="primary">
+                    Fecha de ingreso
+                  </Typography>
                 </Stack>
               </TableCell>
 
@@ -68,8 +78,13 @@ const EgressOrderTable: React.FC<EgressOrderTableProps> = ({
                   alignItems="center"
                   gap={1}
                 >
-                  <ConfirmationNumberIcon color="primary" />
-                  <Typography color="primary">Número de orden</Typography>
+                  <ConfirmationNumberIcon
+                    sx={{ fontSize: [15, 35] }}
+                    color="primary"
+                  />
+                  <Typography fontSize={[10, 12]} color="primary">
+                    Número de orden
+                  </Typography>
                 </Stack>
               </TableCell>
 
@@ -80,8 +95,10 @@ const EgressOrderTable: React.FC<EgressOrderTableProps> = ({
                   alignItems="center"
                   gap={1}
                 >
-                  <DriveEtaIcon color="primary" />
-                  <Typography color="primary">Móvil R.I</Typography>
+                  <DriveEtaIcon sx={{ fontSize: [15, 35] }} color="primary" />
+                  <Typography fontSize={[10, 12]} color="primary">
+                    Móvil R.I
+                  </Typography>
                 </Stack>
               </TableCell>
 

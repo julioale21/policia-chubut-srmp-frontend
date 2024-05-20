@@ -1,4 +1,4 @@
-import MenuAppBar from "../common/components/appbar/AppBar";
+import { ResponsiveDrawer } from "../common/components/drawers/reponsive_drawer/ResponsiveDrawer";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -7,8 +7,9 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <section>
-      <MenuAppBar />
-      {children}
+      <ResponsiveDrawer drawerTitle="Policia del Chubut">
+        {children}
+      </ResponsiveDrawer>
     </section>
   );
 }

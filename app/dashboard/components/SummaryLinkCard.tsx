@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography } from "@mui/material";
 import Link from "next/link";
@@ -26,6 +25,11 @@ const SummaryLinkCard: React.FC<SummaryLinkCardProps> = ({
       y: 0,
       transition: { delay: i * 0.5 },
     }));
+    if (value === 0) {
+      setDisplayValue(0);
+      return;
+    }
+
     let current = 0;
     const interval = setInterval(() => {
       current += 1;

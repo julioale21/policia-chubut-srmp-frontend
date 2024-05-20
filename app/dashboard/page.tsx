@@ -100,6 +100,8 @@ export default function Dashboard() {
     },
   };
 
+  console.log(statistics?.egresses.total);
+
   return (
     <Box sx={{ flexGrow: 1, m: 3, my: 8 }}>
       <Grid container spacing={3}>
@@ -161,7 +163,9 @@ export default function Dashboard() {
                     <TableCell component="th" scope="row">
                       {ingress.movil?.domain}
                     </TableCell>
-                    <TableCell align="right">{ingress.movil?.internal_register}</TableCell>
+                    <TableCell align="right">
+                      {ingress.movil?.internal_register}
+                    </TableCell>
                     <TableCell align="right">{ingress.status}</TableCell>
                   </TableRow>
                 ))}
