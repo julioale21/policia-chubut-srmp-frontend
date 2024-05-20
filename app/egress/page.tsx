@@ -6,7 +6,7 @@ import { useEgressOrders } from "./hooks/useEgressOrders";
 import { EgressOrdersList } from "./components/EgressOrderList";
 
 const EgressPage = () => {
-  const { data, isLoading } = useEgressOrders();
+  const { isLoading } = useEgressOrders();
 
   if (isLoading) {
     return (
@@ -27,9 +27,9 @@ const EgressPage = () => {
     <Stack
       height="100vh"
       width="100%"
-      paddingX={5}
+      paddingX={[0, 5]}
       alignItems="center"
-      justifyContent="center"
+      paddingTop={5}
     >
       <EgressOrdersList />
     </Stack>

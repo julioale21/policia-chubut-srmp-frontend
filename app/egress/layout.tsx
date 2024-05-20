@@ -1,16 +1,15 @@
-import { Stack } from "@mui/material";
-import MenuAppBar from "../common/components/appbar/AppBar";
+import { ResponsiveDrawer } from "../common/components/drawers/reponsive_drawer/ResponsiveDrawer";
 
-interface EgressLayoutProps {
+interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-export default function EgressLayout({ children }: EgressLayoutProps) {
+export default function EgressLayout({ children }: DashboardLayoutProps) {
   return (
     <section>
-      <MenuAppBar />
-      <Stack mt={3}></Stack>
-      {children}
+      <ResponsiveDrawer drawerTitle="Policia del Chubut">
+        {children}
+      </ResponsiveDrawer>
     </section>
   );
 }
