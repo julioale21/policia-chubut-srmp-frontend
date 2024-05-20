@@ -26,10 +26,22 @@ export const EgressOrdersList = () => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;
 
-  if (!ordersData) return <div>No orders</div>;
+  if (!ordersData || !Array.isArray(ordersData))
+    return (
+      <Stack
+        height="100vh"
+        width="100%"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Typography component="h2" fontSize={24}>
+          No hay ordenes de egreso
+        </Typography>
+      </Stack>
+    );
 
   return (
-    <Stack width="70%">
+    <Stack width={["100%", "100%", "70%"]}>
       <Stack
         direction="row"
         gap={1}
