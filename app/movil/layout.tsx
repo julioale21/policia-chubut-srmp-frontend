@@ -1,16 +1,17 @@
 import { Stack } from "@mui/material";
-import MenuAppBar from "../common/components/appbar/AppBar";
+import { ResponsiveDrawer } from "../common/components/drawers/reponsive_drawer/ResponsiveDrawer";
 
-interface IngressLayoutProps {
+interface MovilesLayoutProps {
   children: React.ReactNode;
 }
 
-export default function IngressLayout({ children }: IngressLayoutProps) {
+export default function MovilesLayout({ children }: MovilesLayoutProps) {
   return (
     <section>
-      <MenuAppBar />
-      <Stack mt={3}></Stack>
-      {children}
+      <ResponsiveDrawer drawerTitle="Policia del Chubut">
+        <Stack mt={6}></Stack>
+        {children}
+      </ResponsiveDrawer>
     </section>
   );
 }

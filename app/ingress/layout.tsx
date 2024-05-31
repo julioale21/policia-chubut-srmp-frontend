@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import MenuAppBar from "../common/components/appbar/AppBar";
+import { ResponsiveDrawer } from "../common/components/drawers/reponsive_drawer/ResponsiveDrawer";
 
 interface IngressLayoutProps {
   children: React.ReactNode;
@@ -8,9 +8,10 @@ interface IngressLayoutProps {
 export default function IngressLayout({ children }: IngressLayoutProps) {
   return (
     <section>
-      <MenuAppBar />
-      <Stack mt={3}></Stack>
-      {children}
+      <ResponsiveDrawer drawerTitle="Policia del Chubut">
+        <Stack mt={6}></Stack>
+        {children}
+      </ResponsiveDrawer>
     </section>
   );
 }

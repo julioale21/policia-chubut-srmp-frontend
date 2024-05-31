@@ -21,10 +21,16 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Menu, MenuItem, Stack, Tooltip } from "@mui/material";
-// import { useNavigate } from "@/app/common/hooks/useNavigate";
+import { useNavigate } from "@/app/common/hooks/useNavigate";
 import { useSession } from "next-auth/react";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { signOut } from "next-auth/react";
+import PersonIcon from "@mui/icons-material/Person";
+import TireRepairIcon from "@mui/icons-material/TireRepair";
+import CarRentalIcon from "@mui/icons-material/CarRental";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import BuildIcon from "@mui/icons-material/Build";
+import GarageIcon from "@mui/icons-material/Garage";
 
 const drawerWidth = 240;
 
@@ -88,7 +94,7 @@ export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const { data: session } = useSession();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -105,6 +111,15 @@ export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  function handleNavigateHome(event: React.MouseEvent<HTMLElement>): void {
+    event.preventDefault();
+    navigate("/dashboard");
+  }
+
+  const handleNavigation = (path: string) => {
+    navigate(`/${path}`);
   };
 
   return (
@@ -127,7 +142,13 @@ export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography variant="h6" noWrap component="div">
+            <Typography
+              onClick={handleNavigateHome}
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ cursor: "pointer" }}
+            >
               {drawerTitle}
             </Typography>
             <Stack>
@@ -191,26 +212,36 @@ export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+          {[
+            { name: "Ordenes Ingreso", path: "ingress", icon: <InboxIcon /> },
+            { name: "Ordenes Egreso", path: "egress", icon: <MailIcon /> },
+          ].map((item) => (
+            <ListItem key={item.name} disablePadding>
+              <ListItemButton onClick={() => handleNavigation(item.path)}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.name} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
         <Divider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+          {[
+            { name: "Moviles", path: "movil", icon: <DirectionsCarIcon /> },
+            { name: "Proveedores", path: "provider", icon: <PersonIcon /> },
+            // { name: "Equipos", path: "equipement", icon: <CarRentalIcon /> },
+            // { name: "Mecanicos", path: "mechanic", icon: <TireRepairIcon /> },
+            { name: "Repuestos", path: "spare_part", icon: <GarageIcon /> },
+            {
+              name: "Ordenes ingreso repuesto",
+              path: "spare_part_order",
+              icon: <BuildIcon />,
+            },
+          ].map((item) => (
+            <ListItem key={item.name} disablePadding>
+              <ListItemButton onClick={() => handleNavigation(item.path)}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.name} />
               </ListItemButton>
             </ListItem>
           ))}

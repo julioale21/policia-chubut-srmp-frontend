@@ -1,6 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "@/app/common/hooks/useNavigate";
 import { EgressOrder } from "@/app/egress/types";
+import { Movil } from "../interfaces";
+import { Ingress } from "@/app/ingress/types";
+import { Mechanic } from "@/app/mechanic/types";
+import { SparePartOrder } from "@/app/spare_part_order/types";
 
 interface OrderTableProps {
   fetchOrdersFunction: (page: number, limit: number, search?: string) => any;
@@ -8,7 +12,8 @@ interface OrderTableProps {
 }
 
 interface Orders {
-  egressOrders: EgressOrder[];
+  ingresses?: Ingress[];
+  egresses?: EgressOrder[];
   total: number;
 }
 
@@ -31,6 +36,8 @@ export const useOrdersTables = ({
     isLoading: boolean;
     isError: boolean;
   } = fetchOrdersFunction(page, limit, search);
+
+  console.log(ordersData);
 
   const handleCreateEntity = () => {
     navigate(`/${entity}/create-${entity}`);

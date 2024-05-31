@@ -1,5 +1,3 @@
-
-import { Order } from "@/app/common/interfaces";
 import {
   Paper,
   Stack,
@@ -19,9 +17,10 @@ import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import DriveEtaIcon from "@mui/icons-material/DriveEta";
 import { OrderRow } from "./OrderRow";
 import { usePrefetchIngress } from "../hooks/usePrefetchIngress";
+import { Ingress } from "../types";
 
 interface IngressOrderTableProps {
-  orders: Order[];
+  orders: Ingress[];
   handleSearch: (value: string) => void;
   searchTerm?: string;
 }
