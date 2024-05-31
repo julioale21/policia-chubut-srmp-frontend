@@ -83,7 +83,7 @@ const ProvidersList: React.FC<{ providers: Provider[] }> = ({ providers }) => {
         page={currentPage}
         onChange={handleChange}
         color="primary"
-        sx={{ marginTop: 2, display: "flex", justifyContent: "center" }}
+        sx={{ marginTop: 6, display: "flex", justifyContent: "center" }}
       />
     </Stack>
   );

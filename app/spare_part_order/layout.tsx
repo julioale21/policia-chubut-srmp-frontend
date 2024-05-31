@@ -1,16 +1,19 @@
 import { Stack } from "@mui/material";
-import MenuAppBar from "../common/components/appbar/AppBar";
+import { ResponsiveDrawer } from "../common/components/drawers/reponsive_drawer/ResponsiveDrawer";
 
-interface LayoutProps {
+interface SparePartOrderLayoutProps {
   children: React.ReactNode;
 }
 
-export default function EgressLayout({ children }: LayoutProps) {
+export default function SparePartOrderLayout({
+  children,
+}: SparePartOrderLayoutProps) {
   return (
     <section>
-      <MenuAppBar />
-      <Stack mt={3}></Stack>
-      {children}
+      <ResponsiveDrawer drawerTitle="Policia del Chubut">
+        <Stack mt={6}></Stack>
+        {children}
+      </ResponsiveDrawer>
     </section>
   );
 }
