@@ -50,41 +50,45 @@ const ProvidersList: React.FC<{ providers: Provider[] }> = ({ providers }) => {
       alignItems="center"
       paddingBottom={5}
     >
-      <Typography variant="h4" sx={{ margin: 2 }}>
+      <Typography variant="h4" sx={{ margin: 2, marginBottom: 4 }}>
         Lista de proveedores
       </Typography>
 
-      <Stack width="70%" direction="row" justifyContent="flex-end">
-        <TextField
-          label="Search Providers"
-          variant="outlined"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleSearch} aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          sx={{ mb: 2 }}
-        />
-      </Stack>
+      {providers.length > 1 && (
+        <Stack width="70%" direction="row" justifyContent="flex-end">
+          <TextField
+            label="Buscar proveedor"
+            variant="outlined"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleSearch} aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mb: 2 }}
+          />
+        </Stack>
+      )}
 
       {currentItems.map((provider) => (
         <ProviderCard key={provider.id} provider={provider} />
       ))}
 
-      <Pagination
-        count={Math.ceil(providers.length / itemsPerPage)}
-        page={currentPage}
-        onChange={handleChange}
-        color="primary"
-        sx={{ marginTop: 6, display: "flex", justifyContent: "center" }}
-      />
+      {providers.length > 1 && (
+        <Pagination
+          count={Math.ceil(providers.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handleChange}
+          color="primary"
+          sx={{ marginTop: 6, display: "flex", justifyContent: "center" }}
+        />
+      )}
     </Stack>
   );
 };

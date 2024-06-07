@@ -42,7 +42,6 @@ const MovilesPage = () => {
   return (
     <Stack
       width="100%"
-      // minHeight="100vh"
       justifyContent="center"
       alignItems="center"
       spacing={2}
