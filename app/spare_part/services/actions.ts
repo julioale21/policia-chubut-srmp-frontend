@@ -22,3 +22,12 @@ export const createSparePart = async (sparePart: SparePart) => {
     }
   }
 };
+
+export const deleteSparePart = async (id: string) => {
+  try {
+    await axiosInstance.delete(`/spare-part/${id}`);
+    return "Repuesto eliminado correctamente";
+  } catch (error) {
+    throw new Error("Error al eliminar el repuesto");
+  }
+};
